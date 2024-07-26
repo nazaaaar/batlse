@@ -34,10 +34,11 @@ namespace nazaaaar.platformBattle.mini.view
 
         private void OnPlayerMovedCommand(PlayerMovedCommand e)
         {
-            animator.SetFloat("DirX", e.Vector.x);
-            animator.SetFloat("DirZ", e.Vector.z);
+            bool IsPlayerMoving = e.Vector != Vector3.zero;
             
-            animator.SetBool("IsPlayerMoving", (e.Vector.x != 0 || e.Vector.z != 0));
+            animator.SetFloat("DirZ", IsPlayerMoving?0:1);
+
+            animator.SetBool("IsPlayerMoving", IsPlayerMoving);
             
         }
 

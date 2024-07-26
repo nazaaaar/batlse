@@ -1,8 +1,11 @@
+using nazaaaar.platform.battle.mini.viewAbstract;
 using nazaaaar.platformBattle.mini.controller;
 using nazaaaar.platformBattle.mini.model;
+using nazaaaar.platformBattle.mini.view;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
 using System;
+using UnityEngine.InputSystem;
 namespace nazaaaar.platform.battle.mini
 {
     //  Namespace Properties ------------------------------
@@ -19,8 +22,16 @@ namespace nazaaaar.platform.battle.mini
 
         public PlatformBattleController PlatformBattleController { get => platformBattleController; set => platformBattleController = value; }
         private readonly IPlayerView playerView;
-        private readonly IPlayerInput playerInput;
+        private readonly PlayerInput playerInput;
         private readonly IPlayerAnimation playerAnimation;
+        private readonly CameraFollow cameraFollow;
+        private readonly ICoinView coinView;
+        private readonly ICoinCollector coinCollector;
+        private readonly IShopView shopView;
+        private readonly CoinRotation coinRotation;
+        private readonly ICoinFall coinFall;
+        private readonly IShopZoneCollector shopZoneCollector;
+        private readonly SpawnPointer spawnPointer;
         private PlatformBattleController platformBattleController;
 
         private PlayerModel playerModel;
@@ -34,12 +45,20 @@ namespace nazaaaar.platform.battle.mini
         private Context context;
         
 
-        public PlatformBattleMini(IPlayerView playerView, IPlayerInput playerInput, IPlayerAnimation playerAnimation)
-            {
-                this.playerView = playerView;
-                this.playerInput = playerInput;
-                this.playerAnimation = playerAnimation;
-            }
+        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer)
+        {
+            this.playerView = playerView;
+            this.playerInput = playerInput;
+            this.playerAnimation = playerAnimation;
+            this.cameraFollow = cameraFollow;
+            this.coinView = coinView;
+            this.coinCollector = coinCollector;
+            this.shopView = shopView;
+            this.coinRotation = coinRotation;
+            this.coinFall = coinFall;
+            this.shopZoneCollector = shopZoneCollector;
+            this.spawnPointer = spawnPointer;
+        }
 
         public void Initialize()
         {
@@ -49,19 +68,24 @@ namespace nazaaaar.platform.battle.mini
                 context = new Context ();
                 
                 
-
-                platformBattleController = new PlatformBattleController();
-                playerMovementController = new (playerInput, playerView, playerModel);
                 playerModel = new();
+                platformBattleController = new (coinView, coinCollector, playerModel, shopZoneCollector);
+                playerMovementController = new (playerInput, playerView, playerModel);
+                
 
-
-                playerInput.Initialize (context);
+                coinCollector.Initialize(context);
+                coinView.Initialize(context);
+                cameraFollow.Initialize(context);
                 playerView.Initialize (context);
                 playerAnimation.Initialize(context);
-             //   platformBattleController.Initialize(context);
+                platformBattleController.Initialize(context);
                 playerMovementController.Initialize (context);
                 playerModel.Initialize (context);
-                
+                shopView.Initialize(context);
+                coinFall?.Initialize(context);
+                coinRotation?.Initialize(context);
+                shopZoneCollector.Initialize(context);
+                spawnPointer.Initialize(context);
             }
         }
 

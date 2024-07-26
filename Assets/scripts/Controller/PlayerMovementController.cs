@@ -1,26 +1,25 @@
+using System;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
 using RMC.Mini.Controller;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace nazaaaar.platformBattle.mini.controller
 {
     public class PlayerMovementController : IController
     {
-        private readonly IPlayerInput playerInput;
+        private readonly UnityEngine.InputSystem.PlayerInput playerInput;
         private readonly IPlayerView playerView;
         private readonly PlayerModel playerModel;
         private bool isInitialized;
 
         private IContext context;
-        private DownPressedCommand downPressedCommand = new();
-        private LeftPressedCommand leftPressedCommand = new();
-        private RightPressedCommand rightPressedCommand  = new();
-        private UpPressedCommand upPressedCommand  = new();
+        private PlayerMovePressedCommand playerMovePressedCommand = new();
 
-        public PlayerMovementController(IPlayerInput playerInput, IPlayerView playerView, PlayerModel playerModel)
+        public PlayerMovementController(PlayerInput playerInput, IPlayerView playerView, PlayerModel playerModel)
         {
             this.playerInput = playerInput;
             this.playerView = playerView;
@@ -33,7 +32,7 @@ namespace nazaaaar.platformBattle.mini.controller
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Initialize(IContext context)
@@ -43,69 +42,18 @@ namespace nazaaaar.platformBattle.mini.controller
 
                 this.context = context;
 
-                playerInput.OnDownPressedUp += View_OnDownPressedUp;
-                playerInput.OnUpPressedUp += View_OnUpPressedUp;
-                playerInput.OnRightPressedUp += View_OnRightPressedUp;
-                playerInput.OnLeftPressedUp += View_OnLeftPressedUp;
-
-                playerInput.OnDownPressedDown += View_OnDownPressedDown;
-                playerInput.OnLeftPressedDown += View_OnLeftPressedDown;
-                playerInput.OnRightPressedDown += View_OnRightPressedDown;
-                playerInput.OnUpPressedDown += View_OnUpPressedDown;
+                playerInput.actions["Move"].performed+=View_OnMovePressed;
+                playerInput.actions["Move"].canceled+=View_OnMovePressed;
 
                 playerView.OnPlayerMoved += View_OnPlayerMoved;
     
             }
         }
 
-     
-
-        private void View_OnLeftPressedDown()
+        private void View_OnMovePressed(InputAction.CallbackContext context)
         {
-            leftPressedCommand.isPressed=true;
-            context.CommandManager.InvokeCommand(leftPressedCommand);
-        }
-
-        private void View_OnRightPressedDown()
-        {
-            rightPressedCommand.isPressed=true;
-            context.CommandManager.InvokeCommand(rightPressedCommand);
-        }
-
-        private void View_OnUpPressedDown()
-        {
-            upPressedCommand.isPressed=true;
-            context.CommandManager.InvokeCommand(upPressedCommand);
-        }
-
-        private void View_OnDownPressedDown()
-        {
-            downPressedCommand.isPressed=true;
-            context.CommandManager.InvokeCommand(downPressedCommand);
-        }
-
-        private void View_OnLeftPressedUp()
-        {
-            leftPressedCommand.isPressed=false;
-            context.CommandManager.InvokeCommand(leftPressedCommand);
-        }
-
-        private void View_OnRightPressedUp()
-        {
-            rightPressedCommand.isPressed=false;
-            context.CommandManager.InvokeCommand(rightPressedCommand);
-        }
-
-        private void View_OnUpPressedUp()
-        {
-            upPressedCommand.isPressed=false;
-            context.CommandManager.InvokeCommand(upPressedCommand);
-        }
-
-        private void View_OnDownPressedUp()
-        {
-            downPressedCommand.isPressed=false;
-            context.CommandManager.InvokeCommand(downPressedCommand);
+            playerMovePressedCommand.Vector = context.ReadValue<Vector2>();
+            this.context.CommandManager.InvokeCommand(playerMovePressedCommand);
         }
 
         private void View_OnPlayerMoved(Vector3 vector)

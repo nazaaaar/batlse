@@ -11,17 +11,14 @@ namespace nazaaaar.platformBattle.mini.view
         private bool isInitialized;
         private IContext context;
         [SerializeField]
-        private Rigidbody rigidbody;
+        private CharacterController characterController;
 
         public bool IsInitialized { get => isInitialized; }
         public IContext Context => context;
 
-        public bool IsRightPressed { get; set; }
-        public bool IsLeftPressed { get; set; }
-        public bool IsUpPressed { get; set; }
-        public bool IsDownPressed { get; set; }
         public float MoveSpeed { get; set; } = 5f;
 
+        public Vector3 MovementDirection { get; private set; } = Vector3.zero;
         public event Action<Vector3> OnPlayerMoved;
 
         private void Awake()
@@ -33,24 +30,21 @@ namespace nazaaaar.platformBattle.mini.view
         {
             if (!isInitialized)
             {
-                if (rigidbody == null)
+                if (characterController == null)
                 {
-                    throw new Exception("Rigidbody component is missing on the player GameObject.");
+                    throw new Exception("CharacterController component is missing on the player GameObject.");
                 }
                 isInitialized = true;
                 this.context = context;
 
-                this.context.CommandManager.AddCommandListener<DownPressedCommand>(OnDownPressedCommand);
-                this.context.CommandManager.AddCommandListener<UpPressedCommand>(OnUpPressedCommand);
-                this.context.CommandManager.AddCommandListener<LeftPressedCommand>(OnLeftPressedCommand);
-                this.context.CommandManager.AddCommandListener<RightPressedCommand>(OnRightPressedCommand);
+                this.context.CommandManager.AddCommandListener<PlayerMovePressedCommand>(OnPlayerMovePressed);
                 this.context.CommandManager.AddCommandListener<MoveSpeedChangedCommand>(OnMoveSpeedChanged);
-
-                IsRightPressed = false;
-                IsLeftPressed = false;
-                IsUpPressed = false;
-                IsDownPressed = false;
             }
+        }
+
+        private void OnPlayerMovePressed(PlayerMovePressedCommand e)
+        {
+            MovementDirection = new Vector3(e.Vector.x, 0, e.Vector.y);
         }
 
         private void OnMoveSpeedChanged(MoveSpeedChangedCommand e)
@@ -58,46 +52,35 @@ namespace nazaaaar.platformBattle.mini.view
             this.MoveSpeed = e.MoveSpeed;
         }
 
-        private void OnRightPressedCommand(RightPressedCommand e)
-        {
-            IsRightPressed = e.isPressed;
-        }
-
-        private void OnLeftPressedCommand(LeftPressedCommand e)
-        {
-            IsLeftPressed = e.isPressed;
-        }
-
-        private void OnUpPressedCommand(UpPressedCommand e)
-        {
-            IsUpPressed = e.isPressed;
-        }
-
-        private void OnDownPressedCommand(DownPressedCommand e)
-        {
-            IsDownPressed = e.isPressed;
-        }
-
         private void FixedUpdate()
         {
-            CheckMovement();
+            Move();
         }
 
-        public void CheckMovement()
+        public void Move()
         {
-            Vector3 movementDirection = new();
-            if (IsDownPressed) movementDirection -= transform.forward;
-            if (IsUpPressed) movementDirection += transform.forward;
-            if (IsRightPressed) movementDirection += transform.right;
-            if (IsLeftPressed) movementDirection -= transform.right;
-            movementDirection.Normalize();
-            rigidbody.velocity = movementDirection * MoveSpeed;
-            OnPlayerMoved?.Invoke(movementDirection);
+            Vector3 movement = Vector3.zero;
+            if (MovementDirection != Vector3.zero)
+            {
+                // Rotate the player immediately towards the movement direction
+                Quaternion targetRotation = Quaternion.LookRotation(MovementDirection);
+                transform.rotation = targetRotation;
+                
+                // Move the player forward
+                movement = transform.forward * MoveSpeed * Time.fixedDeltaTime;
+                characterController.Move(movement);
+                
+                
+            }
+            OnPlayerMoved?.Invoke(movement);
         }
 
         public void RequireIsInitialized()
         {
             if (!isInitialized) { throw new Exception("MustBeInitialized"); }
         }
+
+        
     }
-}
+
+    }

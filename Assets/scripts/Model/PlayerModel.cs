@@ -5,15 +5,15 @@ namespace nazaaaar.platformBattle.mini.model
 {
     public class PlayerModel: BaseModel
     {
-        private readonly Observable<int> playerMoney = new();
+        private readonly Observable<int> money = new();
 
-        public Observable<int> PlayerMoney => playerMoney;
+        public Observable<int> Money => money;
 
         public override void Initialize(IContext context)
         {
             if (!IsInitialized){
                 base.Initialize(context);
-                playerMoney.Value = 0;
+                money.Value = 0;
             }
         }
     }

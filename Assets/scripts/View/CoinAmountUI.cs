@@ -1,38 +1,34 @@
-
-
 using System;
-using nazaaaar.platform.battle.mini.viewAbstract;
 using nazaaaar.platformBattle.mini.controller.commands;
+using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 namespace nazaaaar.platformBattle.mini.view
 {
-    public class ShopView : MonoBehaviour, IShopView
+    public class CoinAmountUI :MonoBehaviour, ICoinAmountUI
     {
         public bool IsInitialized {get; private set;}
 
         public IContext Context {get; private set;}
 
+        [SerializeField]
+        private TextMeshProUGUI textCoinAmount;
+
         public void Initialize(IContext context)
         {
-            if (!IsInitialized)
-            {
+            if (!IsInitialized) {
                 IsInitialized = true;
                 Context = context;
-                context.CommandManager.AddCommandListener<ShopZoneEnteredCommand>(OnShopZoneEntered);
-                context.CommandManager.AddCommandListener<ShopZoneExitedCommand>(OnShopZoneExited);
+                context.CommandManager.AddCommandListener<PlayerCoinAmountChangedCommand>(OnCoinAmountChanged);
             }
         }
 
-        private void OnShopZoneExited(ShopZoneExitedCommand e)
+        private void OnCoinAmountChanged(PlayerCoinAmountChangedCommand e)
         {
-            gameObject.SetActive(false);
-        }
-
-        private void OnShopZoneEntered(ShopZoneEnteredCommand e)
-        {
-            gameObject.SetActive(true);
+            textCoinAmount.text = e.coinAmount.ToString();
         }
 
         public void RequireIsInitialized()

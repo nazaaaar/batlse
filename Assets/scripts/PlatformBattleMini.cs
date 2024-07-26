@@ -32,6 +32,7 @@ namespace nazaaaar.platform.battle.mini
         private readonly ICoinFall coinFall;
         private readonly IShopZoneCollector shopZoneCollector;
         private readonly SpawnPointer spawnPointer;
+        private readonly ICoinAmountUI coinAmountUI;
         private PlatformBattleController platformBattleController;
 
         private PlayerModel playerModel;
@@ -45,7 +46,7 @@ namespace nazaaaar.platform.battle.mini
         private Context context;
         
 
-        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer)
+        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer, ICoinAmountUI coinAmountUI)
         {
             this.playerView = playerView;
             this.playerInput = playerInput;
@@ -58,6 +59,7 @@ namespace nazaaaar.platform.battle.mini
             this.coinFall = coinFall;
             this.shopZoneCollector = shopZoneCollector;
             this.spawnPointer = spawnPointer;
+            this.coinAmountUI = coinAmountUI;
         }
 
         public void Initialize()
@@ -80,12 +82,15 @@ namespace nazaaaar.platform.battle.mini
                 playerAnimation.Initialize(context);
                 platformBattleController.Initialize(context);
                 playerMovementController.Initialize (context);
-                playerModel.Initialize (context);
+             
                 shopView.Initialize(context);
                 coinFall?.Initialize(context);
                 coinRotation?.Initialize(context);
                 shopZoneCollector.Initialize(context);
                 spawnPointer.Initialize(context);
+                coinAmountUI.Initialize(context);
+
+                playerModel.Initialize (context);
             }
         }
 

@@ -32,6 +32,8 @@ namespace nazaaaar.platformBattle.mini
         private ShopZoneCollector shopZoneCollector;
         [SerializeField]
         private SpawnPointer pointer;
+        [SerializeField]
+        private CoinAmountUI coinAmountUI;
 
         void Awake(){
 
@@ -46,7 +48,8 @@ namespace nazaaaar.platformBattle.mini
                 coinRotation,
                 coinFall,
                 shopZoneCollector,
-                pointer
+                pointer,
+                coinAmountUI
                 );
 
             platformBattleMini.Initialize();

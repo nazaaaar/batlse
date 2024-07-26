@@ -22,6 +22,8 @@ namespace nazaaaar.platformBattle.mini.view
                 OnShopZoneExited?.Invoke();
             }
         }
+
+
         public bool IsInitialized {get; private set;}
 
         public IContext Context {get; private set;}

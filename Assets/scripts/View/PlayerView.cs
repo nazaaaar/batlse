@@ -62,11 +62,9 @@ namespace nazaaaar.platformBattle.mini.view
             Vector3 movement = Vector3.zero;
             if (MovementDirection != Vector3.zero)
             {
-                // Rotate the player immediately towards the movement direction
                 Quaternion targetRotation = Quaternion.LookRotation(MovementDirection);
                 transform.rotation = targetRotation;
                 
-                // Move the player forward
                 movement = transform.forward * MoveSpeed * Time.fixedDeltaTime;
                 characterController.Move(movement);
                 

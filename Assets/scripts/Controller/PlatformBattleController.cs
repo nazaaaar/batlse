@@ -1,12 +1,12 @@
+using Codice.Client.BaseCommands;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
 using nazaaaar.platformBattle.mini.view;
 using nazaaaar.platformBattle.mini.viewAbstract;
-using RMC.Core.Events;
 using RMC.Mini;
 using RMC.Mini.Controller;
 using System;
-using System.Diagnostics;
+using System.Linq;
 namespace nazaaaar.platformBattle.mini.controller
 {
     public class PlatformBattleController : IController
@@ -22,16 +22,21 @@ namespace nazaaaar.platformBattle.mini.controller
 
         private readonly PlayerModel playerModel;
         private readonly IShopZoneCollector shopZoneCollector;
-
+        private readonly ShopModel shopModel;
+        private readonly IShopView shopView;
         private readonly ShopZoneEnteredCommand shopZoneEnteredCommand = new();
         private readonly ShopZoneExitedCommand shopZoneExitedCommand = new();
+        private readonly ActiveShopCardsChangedCommand activeShopCardsChangedCommand = new();
+        private readonly CouldBeBoughtShopCardsChangedCommand couldBeBoughtShopCardsChangedCommand = new();
 
-        public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector)
+        public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView)
         {
             this.coinView = coinView;
             this.coinCollector = coinCollector;
             this.playerModel = playerModel;
             this.shopZoneCollector = shopZoneCollector;
+            this.shopModel = shopModel;
+            this.shopView = shopView;
         }
 
         public void Dispose()
@@ -48,7 +53,56 @@ namespace nazaaaar.platformBattle.mini.controller
                 playerModel.Money.OnValueChanged.AddListener(PlayerMoneyValueChanged);
                 shopZoneCollector.OnShopZoneExited += View_OnShopZoneExired;
                 shopZoneCollector.OnShopZoneEntered += View_OnShopZoneEntered;
+                shopModel.ShopCards.OnValueChanged.AddListener(ShopCardsValueChanged);
+                shopModel.ActiveShopCards.OnValueChanged.AddListener(ActiveShopCardsValueChanged);
+                shopView.OnAllShopCardsSoChanged += View_OnAllShopCardsSoChanged;
             }
+        }
+
+        private void View_OnAllShopCardsSoChanged(ShopCardSO[] so)
+        {
+            ShopCard[] shopCards = new ShopCard[so.Length];
+            for (int i = 0; i < so.Length; i++){
+                shopCards[i] = new ShopCard
+                {
+                    shopCardSO = so[i]
+                };
+            }
+            shopModel.ShopCards.Value = shopCards;
+        }
+
+        private void ActiveShopCardsValueChanged(ShopCard[] oldValue, ShopCard[] newValue)
+        {
+            CheckShopCardsForMoney(newValue);
+            activeShopCardsChangedCommand.ShopCards = newValue;
+            Context.CommandManager.InvokeCommand(activeShopCardsChangedCommand);
+        }
+
+        private void CheckShopCardsForMoney(ShopCard[] newValue)
+        {
+            foreach (var shopCard in newValue)
+            {
+                shopCard.CouldBeChanged = shopCard.shopCardSO.cost <= playerModel.Money.Value;
+            }
+        }
+
+        private void ShopCardsValueChanged(ShopCard[] oldValue, ShopCard[] newValue)
+        {
+            ShuffleActiveShopCards();
+        }
+
+        private void ShuffleActiveShopCards()
+        {
+            if (shopModel.ShopCards.Value == null || shopModel.ShopCards.Value.Length < 3)
+            {
+                throw new InvalidOperationException("Not enough shop cards to pick from.");
+            }
+
+            ShopCard[] shuffledShopCards = shopModel.ShopCards.Value.OrderBy(x => UnityEngine.Random.value).ToArray();
+
+            ShopCard[] pickedCards = shuffledShopCards.Take(3).ToArray();
+
+            shopModel.ActiveShopCards.Value = pickedCards;
         }
 
         private void View_OnShopZoneEntered()
@@ -65,6 +119,19 @@ namespace nazaaaar.platformBattle.mini.controller
         {
             playerCoinAmountChangedCommand.coinAmount = newValue;
             Context.CommandManager.InvokeCommand(playerCoinAmountChangedCommand);
+            HandlePlayerMoneyChangedForCards();
+        }
+
+        private void HandlePlayerMoneyChangedForCards()
+        {
+            CheckShopCardsForMoney(shopModel.ActiveShopCards.Value);
+            bool[] couldBeBought = new bool[3];
+            for (int i = 0; i < shopModel.ActiveShopCards.Value.Length; i++)
+            {
+                couldBeBought[i] = shopModel.ActiveShopCards.Value[i].CouldBeChanged;
+            }
+            couldBeBoughtShopCardsChangedCommand.CouldBeBought = couldBeBought;
+            Context.CommandManager.InvokeCommand(couldBeBoughtShopCardsChangedCommand);
         }
 
         private void View_OnCoinCollected()

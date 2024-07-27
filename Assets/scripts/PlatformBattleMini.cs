@@ -1,4 +1,3 @@
-using nazaaaar.platform.battle.mini.viewAbstract;
 using nazaaaar.platformBattle.mini.controller;
 using nazaaaar.platformBattle.mini.model;
 using nazaaaar.platformBattle.mini.view;
@@ -36,6 +35,7 @@ namespace nazaaaar.platform.battle.mini
         private PlatformBattleController platformBattleController;
 
         private PlayerModel playerModel;
+        private ShopModel shopModel;
 
         
 
@@ -71,10 +71,11 @@ namespace nazaaaar.platform.battle.mini
                 
                 
                 playerModel = new();
-                platformBattleController = new (coinView, coinCollector, playerModel, shopZoneCollector);
+                shopModel = new();
+                platformBattleController = new (coinView, coinCollector, playerModel, shopZoneCollector, shopModel,shopView);
                 playerMovementController = new (playerInput, playerView, playerModel);
                 
-
+                playerModel.Initialize (context);
                 coinCollector.Initialize(context);
                 coinView.Initialize(context);
                 cameraFollow.Initialize(context);
@@ -90,7 +91,7 @@ namespace nazaaaar.platform.battle.mini
                 spawnPointer.Initialize(context);
                 coinAmountUI.Initialize(context);
 
-                playerModel.Initialize (context);
+             
             }
         }
 

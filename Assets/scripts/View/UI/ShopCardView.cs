@@ -23,6 +23,7 @@ namespace nazaaaar.platformBattle.mini.view
         public TextMeshProUGUI Title { get => title; set => title = value; }
         public TextMeshProUGUI Descriotion { get => descriotion; set => descriotion = value; }
         public TextMeshProUGUI Cost { get => cost; set => cost = value; }
+        public ShopCardSO ShopCardSO { get; private set; }
         public bool Interactable {get{
             return button.interactable;
         }
@@ -30,14 +31,13 @@ namespace nazaaaar.platformBattle.mini.view
             button.interactable = value;
         }
         }
-
         public void ConfigWithShopCard(ShopCard shopCard){
             this.image.sprite = shopCard.shopCardSO.image;
             this.title.text = shopCard.shopCardSO.title;
             this.Descriotion.text = shopCard.shopCardSO.description;
             this.cost.text = shopCard.shopCardSO.cost.ToString();
             this.Interactable = shopCard.CouldBeChanged;
-            Debug.Log(shopCard.shopCardSO.title + " " + shopCard.CouldBeChanged);
+            this.ShopCardSO = shopCard.shopCardSO;
         }
     }
 }

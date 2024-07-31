@@ -22,6 +22,8 @@ namespace nazaaaar.platformBattle.mini.view
         public IContext Context {get; private set;}
         public event Action<ShopCardSO[]> OnAllShopCardsSoChanged;
 
+        public event Action<ShopCardSO> OnShopCardClick;
+
         public void Initialize(IContext context)
         {
             if (!IsInitialized)
@@ -67,6 +69,10 @@ namespace nazaaaar.platformBattle.mini.view
         public void RequireIsInitialized()
         {
             if (!IsInitialized) throw new System.Exception("MustBeInitialized");
+        }
+
+        public void OnShopCardClicked(ShopCardView shopCardView){
+            OnShopCardClick?.Invoke(shopCardView.ShopCardSO);
         }
     }
 }

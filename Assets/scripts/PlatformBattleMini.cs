@@ -32,6 +32,7 @@ namespace nazaaaar.platform.battle.mini
         private readonly IShopZoneCollector shopZoneCollector;
         private readonly SpawnPointer spawnPointer;
         private readonly ICoinAmountUI coinAmountUI;
+        private readonly IMonsterSpawner monsterSpawner;
         private PlatformBattleController platformBattleController;
 
         private PlayerModel playerModel;
@@ -46,7 +47,7 @@ namespace nazaaaar.platform.battle.mini
         private Context context;
         
 
-        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer, ICoinAmountUI coinAmountUI)
+        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer, ICoinAmountUI coinAmountUI, IMonsterSpawner monsterSpawner)
         {
             this.playerView = playerView;
             this.playerInput = playerInput;
@@ -60,6 +61,7 @@ namespace nazaaaar.platform.battle.mini
             this.shopZoneCollector = shopZoneCollector;
             this.spawnPointer = spawnPointer;
             this.coinAmountUI = coinAmountUI;
+            this.monsterSpawner = monsterSpawner;
         }
 
         public void Initialize()
@@ -72,10 +74,11 @@ namespace nazaaaar.platform.battle.mini
                 
                 playerModel = new();
                 shopModel = new();
-                platformBattleController = new (coinView, coinCollector, playerModel, shopZoneCollector, shopModel,shopView);
+                platformBattleController = new (coinView, coinCollector, playerModel, shopZoneCollector, shopModel,shopView,spawnPointer);
                 playerMovementController = new (playerInput, playerView, playerModel);
                 
                 playerModel.Initialize (context);
+                monsterSpawner.Initialize(context);
                 coinCollector.Initialize(context);
                 coinView.Initialize(context);
                 cameraFollow.Initialize(context);

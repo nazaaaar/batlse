@@ -1,11 +1,7 @@
 using System;
 using System.Collections;
-using nazaaaar.platformBattle.mini.controller.commands;
-using nazaaaar.platformBattle.mini.view.services;
 using nazaaaar.platformBattle.mini.viewAbstract;
-using nazaaaar.platformBattle.mini.viewAbstract.services;
 using RMC.Mini;
-using RMC.Mini.View;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

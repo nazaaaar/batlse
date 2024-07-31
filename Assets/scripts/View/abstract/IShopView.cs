@@ -7,5 +7,6 @@ namespace nazaaaar.platformBattle.mini.viewAbstract
     public interface IShopView: IView
     {
         public event Action<ShopCardSO[]> OnAllShopCardsSoChanged;
+        public event Action<ShopCardSO> OnShopCardClick;
     }
 }

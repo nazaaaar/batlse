@@ -1,5 +1,3 @@
-using System;
-
 namespace nazaaaar.platformBattle.mini.model
 {
     public class ShopCard

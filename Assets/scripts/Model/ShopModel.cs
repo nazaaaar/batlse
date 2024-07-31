@@ -1,8 +1,6 @@
-using System.Linq;
 using RMC.Core.Observables;
 using RMC.Mini;
 using RMC.Mini.Model;
-using System;
 
 namespace nazaaaar.platformBattle.mini.model
 {

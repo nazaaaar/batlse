@@ -1,7 +1,5 @@
-using Codice.Client.BaseCommands;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
-using nazaaaar.platformBattle.mini.view;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
 using RMC.Mini.Controller;
@@ -24,12 +22,14 @@ namespace nazaaaar.platformBattle.mini.controller
         private readonly IShopZoneCollector shopZoneCollector;
         private readonly ShopModel shopModel;
         private readonly IShopView shopView;
+        private readonly ISpawnPointer spawnPointer;
         private readonly ShopZoneEnteredCommand shopZoneEnteredCommand = new();
         private readonly ShopZoneExitedCommand shopZoneExitedCommand = new();
         private readonly ActiveShopCardsChangedCommand activeShopCardsChangedCommand = new();
         private readonly CouldBeBoughtShopCardsChangedCommand couldBeBoughtShopCardsChangedCommand = new();
+        private readonly MonsterSpawnRequestCommand monsterSpawnRequestCommand = new();
 
-        public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView)
+        public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView, ISpawnPointer spawnPointer)
         {
             this.coinView = coinView;
             this.coinCollector = coinCollector;
@@ -37,6 +37,7 @@ namespace nazaaaar.platformBattle.mini.controller
             this.shopZoneCollector = shopZoneCollector;
             this.shopModel = shopModel;
             this.shopView = shopView;
+            this.spawnPointer = spawnPointer;
         }
 
         public void Dispose()
@@ -56,7 +57,20 @@ namespace nazaaaar.platformBattle.mini.controller
                 shopModel.ShopCards.OnValueChanged.AddListener(ShopCardsValueChanged);
                 shopModel.ActiveShopCards.OnValueChanged.AddListener(ActiveShopCardsValueChanged);
                 shopView.OnAllShopCardsSoChanged += View_OnAllShopCardsSoChanged;
+                shopView.OnShopCardClick += View_OnShopCardClick;
             }
+        }
+
+        private void View_OnShopCardClick(ShopCardSO sO)
+        {
+            
+            monsterSpawnRequestCommand.Position = spawnPointer.Position;
+            monsterSpawnRequestCommand.Position.y = 0;
+            monsterSpawnRequestCommand.MonsterSO = sO.monsterSO;
+            monsterSpawnRequestCommand.team = playerModel.Team.Value;
+            Context.CommandManager.InvokeCommand(monsterSpawnRequestCommand);
+            ShuffleActiveShopCards();
+            playerModel.Money.Value-=sO.cost;
         }
 
         private void View_OnAllShopCardsSoChanged(ShopCardSO[] so)

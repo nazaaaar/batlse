@@ -1,5 +1,4 @@
 using nazaaaar.platformBattle.mini.view.services;
-using nazaaaar.platformBattle.mini.viewAbstract.services;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

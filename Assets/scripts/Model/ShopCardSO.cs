@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace nazaaaar.platformBattle.mini.model
 {
@@ -10,6 +9,7 @@ namespace nazaaaar.platformBattle.mini.model
         public Sprite image;
         public string description;
         public int cost;
-        public GameObject prefab;
+
+        public MonsterSO monsterSO;
     }
 }

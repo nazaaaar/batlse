@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   title: Slime
-  image: {fileID: 21300000, guid: 7a5338825a1cc3744bb464bc37c5e041, type: 3}
+  image: {fileID: 21300000, guid: 36752755d22024a49bafabd556e07c66, type: 3}
   description: arr angry slime
   cost: 3
-  prefab: {fileID: 0}
+  monsterSO: {fileID: 11400000, guid: 536420ef0d59d014fa09f0bee1fdea21, type: 2}

@@ -1,4 +1,3 @@
-using System;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
@@ -19,6 +18,8 @@ namespace nazaaaar.platformBattle.mini.view
         public bool IsInitialized {get; private set;}
 
         public IContext Context {get; private set;}
+
+        public Vector3 Position => pointer.position;
 
         public void Initialize(IContext context)
         {

@@ -142,6 +142,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2738198862900757652}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnShopCardClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: nazaaaar.platformBattle.mini.view.ShopView, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 7719559487012533427}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: nazaaaar.platformBattle.mini.view.ShopCardView, Scripts
+      objectReference: {fileID: 0}
     - target: {fileID: 4802160791568132104, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
       propertyPath: m_Name
       value: PlayerCard (1)
@@ -367,6 +399,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2738198862900757652}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnShopCardClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: nazaaaar.platformBattle.mini.view.ShopView, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 4165978247439303218}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: nazaaaar.platformBattle.mini.view.ShopCardView, Scripts
+      objectReference: {fileID: 0}
     - target: {fileID: 4802160791568132104, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
       propertyPath: m_Name
       value: PlayerCard (2)
@@ -591,6 +655,38 @@ PrefabInstance:
     - target: {fileID: 2273549613876082104, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2738198862900757652}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnShopCardClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: nazaaaar.platformBattle.mini.view.ShopView, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 723508784204985667}
+    - target: {fileID: 3050464369994174624, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: nazaaaar.platformBattle.mini.view.ShopCardView, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 4802160791568132104, guid: 3551b941c505e184a8f36ba4bdcec0c5, type: 3}
       propertyPath: m_Name

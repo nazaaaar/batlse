@@ -1,11 +1,10 @@
-
-using nazaaaar.platformBattle.mini.view;
 using RMC.Mini;
 using RMC.Mini.View;
 using UnityEngine;
 
-namespace nazaaaar.platformBattle.mini.view{
-public class CoinRotation: MonoBehaviour, IView
+namespace nazaaaar.platformBattle.mini.view
+{
+    public class CoinRotation: MonoBehaviour, IView
 {
     [SerializeField]
     public float rotationSpeed;

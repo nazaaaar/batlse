@@ -5,7 +5,6 @@ using nazaaaar.slime.mini.model;
 using nazaaaar.slime.mini.viewAbstract;
 using RMC.Mini;
 using RMC.Mini.Controller;
-using UnityEngine;
 
 namespace nazaaaar.slime.mini.controller
 {

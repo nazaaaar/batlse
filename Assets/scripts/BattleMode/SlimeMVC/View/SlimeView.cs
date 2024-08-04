@@ -3,7 +3,6 @@ using UnityEngine;
 using nazaaaar.slime.mini.viewAbstract;
 using nazaaaar.slime.mini.controller.commands;
 using nazaaaar.slime.mini.model;
-using System;
 using nazaaaar.slime.mini.controller;
 
 namespace nazaaaar.slime.mini.view

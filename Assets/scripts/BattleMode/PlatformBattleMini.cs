@@ -5,7 +5,7 @@ using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
 using System;
 using UnityEngine.InputSystem;
-namespace nazaaaar.platform.battle.mini
+namespace nazaaaar.platformBattle.mini
 {
     //  Namespace Properties ------------------------------
 

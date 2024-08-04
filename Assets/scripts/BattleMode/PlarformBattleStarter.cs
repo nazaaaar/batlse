@@ -1,4 +1,3 @@
-using nazaaaar.platform.battle.mini;
 using nazaaaar.platformBattle.mini.view;
 using UnityEngine;
 using UnityEngine.InputSystem;

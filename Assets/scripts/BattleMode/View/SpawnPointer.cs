@@ -21,6 +21,8 @@ namespace nazaaaar.platformBattle.mini.view
 
         public Vector3 Position => pointer.position;
 
+        public Transform Player { get => player; set => player = value; }
+
         public void Initialize(IContext context)
         {
             if (!IsInitialized){

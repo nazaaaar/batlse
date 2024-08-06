@@ -10,6 +10,7 @@ namespace nazaaaar.platformBattle.mini.view{
         public bool IsInitialized { get; private set; }
 
         public IContext Context { get; private set; }
+        public Transform PlayerTransform { get => playerTransform; set => playerTransform = value; }
 
         [SerializeField]
         private Transform playerTransform;

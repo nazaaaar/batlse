@@ -1,5 +1,7 @@
+using nazaaaar.platformBattle.MainMenu.service;
 using nazaaaar.platformBattle.MainMenu.view;
 using nazaaaar.platformBattle.MainMenu.viewAbstract;
+using Unity.Services.Lobbies;
 using UnityEngine;
 
 namespace nazaaaar.platformBattle.MainMenu.mini
@@ -9,11 +11,13 @@ namespace nazaaaar.platformBattle.MainMenu.mini
         public CameraView cameraView;
         public MenuButtonsView menuButtonsView;
         public PageSwitcher pageSwitcher;
+        public LobbyManager lobbyManager;
+        public RelayManager relayManager;
 
         void Awake(){
 
             MainMenuMini platformBattleMini =
-            new (cameraView, menuButtonsView, pageSwitcher);
+            new (cameraView, menuButtonsView, pageSwitcher, lobbyManager, relayManager);
 
             platformBattleMini.Initialize();
         }

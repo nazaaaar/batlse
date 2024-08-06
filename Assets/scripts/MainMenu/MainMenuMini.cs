@@ -23,15 +23,19 @@ namespace nazaaaar.platformBattle.MainMenu.mini
         private readonly ICameraView cameraView;
         private readonly IMenuButtonsView menuButtonsView;
         private readonly IPageSwitcher pageSwitcher;
+        private readonly LobbyManager lobbyManager;
+        private readonly RelayManager relayManager;
         private PlayerModel playerModel;
         private MainMenuController mainMenuController;
-        private ConnectionService connectionService;
 
-        public MainMenuMini(ICameraView cameraView, IMenuButtonsView menuButtonsView, IPageSwitcher pageSwitcher)
+
+        public MainMenuMini(ICameraView cameraView, IMenuButtonsView menuButtonsView, IPageSwitcher pageSwitcher, LobbyManager lobbyManager, RelayManager relayManager)
         {
             this.cameraView = cameraView;
             this.menuButtonsView = menuButtonsView;
             this.pageSwitcher = pageSwitcher;
+            this.lobbyManager = lobbyManager;
+            this.relayManager = relayManager;
         }
 
         public void Initialize()
@@ -42,12 +46,12 @@ namespace nazaaaar.platformBattle.MainMenu.mini
                 context = new Context ();
 
                 playerModel = new();
-                connectionService = new();
                 
-                mainMenuController = new(playerModel, cameraView, menuButtonsView, connectionService);
+                mainMenuController = new(playerModel, cameraView, menuButtonsView, lobbyManager, relayManager);
 
                 mainMenuController.Initialize(context);
-                connectionService.Initialize(context);
+                lobbyManager.Initialize(context);
+                relayManager.Initialize(context);
                 cameraView.Initialize(context);
                 pageSwitcher.Initialize(context);
                 menuButtonsView.Initialize(context);

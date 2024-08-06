@@ -12,6 +12,11 @@ namespace nazaaaar.platformBattle.mini.view
         private IContext context;
         [SerializeField]
         private CharacterController characterController;
+        [SerializeField]
+        private Vector3 bluePosition;
+        [SerializeField]
+        private Vector3 redPosition;
+        
 
         public bool IsInitialized { get => isInitialized; }
         public IContext Context => context;
@@ -19,6 +24,9 @@ namespace nazaaaar.platformBattle.mini.view
         public float MoveSpeed { get; set; } = 5f;
 
         public Vector3 MovementDirection { get; private set; } = Vector3.zero;
+        public CharacterController CharacterController { get => characterController; set => characterController = value; }
+        public Transform PlayerTransform { get; set; }
+
         public event Action<Vector3> OnPlayerMoved;
 
         private void Awake()
@@ -39,7 +47,21 @@ namespace nazaaaar.platformBattle.mini.view
 
                 this.context.CommandManager.AddCommandListener<PlayerMovePressedCommand>(OnPlayerMovePressed);
                 this.context.CommandManager.AddCommandListener<MoveSpeedChangedCommand>(OnMoveSpeedChanged);
+
+                this.context.CommandManager.AddCommandListener<TeamChangedCommand>(OnTeamChanged);
             }
+        }
+
+        private void OnTeamChanged(TeamChangedCommand e)
+        {
+            if (e.Team==model.Team.Blue) {
+                PlayerTransform.position = bluePosition;
+                
+                }
+            if (e.Team==model.Team.Red){
+                PlayerTransform.position = redPosition;
+                
+                }
         }
 
         private void OnPlayerMovePressed(PlayerMovePressedCommand e)
@@ -63,9 +85,9 @@ namespace nazaaaar.platformBattle.mini.view
             if (MovementDirection != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(MovementDirection);
-                transform.rotation = targetRotation;
+                PlayerTransform.rotation = targetRotation;
                 
-                movement = transform.forward * MoveSpeed * Time.fixedDeltaTime;
+                movement = PlayerTransform.forward * MoveSpeed * Time.fixedDeltaTime;
                 characterController.Move(movement);
                 
                 

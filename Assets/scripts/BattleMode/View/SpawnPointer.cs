@@ -1,3 +1,4 @@
+using System;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
@@ -11,10 +12,14 @@ namespace nazaaaar.platformBattle.mini.view
         private Transform player;
         [SerializeField]
         private Transform pointer;
-        [SerializeField]
+        
         private GameObject[] tilemapGameObjects;
         [SerializeField]
         private Vector3 offset;
+        [SerializeField]
+        private GameObject[] redGameObjects;
+        [SerializeField]
+        private GameObject[] blueGameObjects;
         public bool IsInitialized {get; private set;}
 
         public IContext Context {get; private set;}
@@ -28,9 +33,18 @@ namespace nazaaaar.platformBattle.mini.view
             if (!IsInitialized){
                 IsInitialized=true;
                 Context = context;
-                context.CommandManager.AddCommandListener<ShopZoneEnteredCommand>(OnShopEntered);
-                context.CommandManager.AddCommandListener<ShopZoneExitedCommand>(OnShopExited);
+                
+                context.CommandManager.AddCommandListener<TeamChangedCommand>(OnTeamChanged);
             }
+        }
+
+        private void OnTeamChanged(TeamChangedCommand e)
+        {
+            if (e.Team == model.Team.Blue) {tilemapGameObjects = blueGameObjects;}
+            else if (e.Team == model.Team.Red) {tilemapGameObjects = redGameObjects;}
+
+            Context.CommandManager.AddCommandListener<ShopZoneEnteredCommand>(OnShopEntered);
+            Context.CommandManager.AddCommandListener<ShopZoneExitedCommand>(OnShopExited);
         }
 
         private void OnShopExited(ShopZoneExitedCommand e)

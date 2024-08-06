@@ -23,13 +23,15 @@ namespace nazaaaar.platformBattle.mini.controller
         private readonly ShopModel shopModel;
         private readonly IShopView shopView;
         private readonly ISpawnPointer spawnPointer;
+        private readonly Team team;
         private readonly ShopZoneEnteredCommand shopZoneEnteredCommand = new();
         private readonly ShopZoneExitedCommand shopZoneExitedCommand = new();
         private readonly ActiveShopCardsChangedCommand activeShopCardsChangedCommand = new();
         private readonly CouldBeBoughtShopCardsChangedCommand couldBeBoughtShopCardsChangedCommand = new();
         private readonly MonsterSpawnRequestCommand monsterSpawnRequestCommand = new();
+        private readonly TeamChangedCommand teamChangedCommand = new();
 
-        public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView, ISpawnPointer spawnPointer)
+        public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView, ISpawnPointer spawnPointer, Team team)
         {
             this.coinView = coinView;
             this.coinCollector = coinCollector;
@@ -38,6 +40,7 @@ namespace nazaaaar.platformBattle.mini.controller
             this.shopModel = shopModel;
             this.shopView = shopView;
             this.spawnPointer = spawnPointer;
+            this.team = team;
         }
 
         public void Dispose()
@@ -50,6 +53,8 @@ namespace nazaaaar.platformBattle.mini.controller
             if (!IsInitialized){
                 IsInitialized = true;
                 Context = context;
+
+                playerModel.Team.OnValueChanged.AddListener(TeamValueChanged);
                 coinCollector.OnCoinCollected+=View_OnCoinCollected;
                 playerModel.Money.OnValueChanged.AddListener(PlayerMoneyValueChanged);
                 shopZoneCollector.OnShopZoneExited += View_OnShopZoneExired;
@@ -58,7 +63,15 @@ namespace nazaaaar.platformBattle.mini.controller
                 shopModel.ActiveShopCards.OnValueChanged.AddListener(ActiveShopCardsValueChanged);
                 shopView.OnAllShopCardsSoChanged += View_OnAllShopCardsSoChanged;
                 shopView.OnShopCardClick += View_OnShopCardClick;
+
+                playerModel.Team.Value = team;
             }
+        }
+
+        private void TeamValueChanged(Team oldValue, Team newValue)
+        {
+            teamChangedCommand.Team = newValue;
+            Context.CommandManager.InvokeCommand(teamChangedCommand);
         }
 
         private void View_OnShopCardClick(ShopCardSO sO)

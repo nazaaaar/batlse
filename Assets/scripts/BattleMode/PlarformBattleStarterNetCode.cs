@@ -1,5 +1,9 @@
+using System;
 using nazaaaar.platformBattle.mini.view;
+using nazaaaar.platformBattle.mini.viewAbstract;
+using RMC.Mini;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,7 +41,16 @@ namespace nazaaaar.platformBattle.mini
         [SerializeField]
         private MonsterSpawner monsterSpawner;
 
+        [SerializeField]
+        private LoadScreenView loadScreenView;
+
+        private IContext context;
+
         public void Awake(){
+            context = new Context();
+            loadScreenView.Initialize(context);
+
+
             if (PlayerPrefs.GetInt("isHost") == 1){
                 Debug.Log("Starting host");
                 NetworkManager.Singleton.StartHost();
@@ -49,14 +62,17 @@ namespace nazaaaar.platformBattle.mini
             }            
         } 
 
-        public void StartBattle(Transform playerPrefab){
+        public void StartBattle(Transform playerPrefab, model.Team team)
+        {
 
-            playerInput = playerPrefab.GetComponent<PlayerInput>();
-            playerView = playerPrefab.GetComponent<PlayerView>();
-            playerAnimation = playerPrefab.GetComponent<PlayerAnimation>();
+            
+            playerView.CharacterController = playerPrefab.GetComponent<CharacterController>();
+            playerAnimation.Animator = playerPrefab.GetComponent<Animator>();
+
             coinCollector = playerPrefab.GetComponent<CoinCollector>();
             shopZoneCollector = playerPrefab.GetComponent<ShopZoneCollector>();
 
+            playerView.PlayerTransform = playerPrefab;
             pointer.Player = playerPrefab;
             cameraFollow.PlayerTransform = playerPrefab;
 
@@ -73,7 +89,9 @@ namespace nazaaaar.platformBattle.mini
                 shopZoneCollector,
                 pointer,
                 coinAmountUI,
-                monsterSpawner
+                monsterSpawner,
+                team,
+                context
                 );
 
             platformBattleMini.Initialize();

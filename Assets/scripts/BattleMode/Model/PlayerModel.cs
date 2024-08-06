@@ -14,7 +14,6 @@ namespace nazaaaar.platformBattle.mini.model
             if (!IsInitialized){
                 base.Initialize(context);
                 money.Value = 0;
-                Team.Value = model.Team.Blue;
             }
         }
 

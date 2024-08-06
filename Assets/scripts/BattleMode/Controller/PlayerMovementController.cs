@@ -53,6 +53,7 @@ namespace nazaaaar.platformBattle.mini.controller
         private void View_OnMovePressed(InputAction.CallbackContext context)
         {
             playerMovePressedCommand.Vector = context.ReadValue<Vector2>();
+            if (playerModel.Team.Value == Team.Red) playerMovePressedCommand.Vector = -playerMovePressedCommand.Vector;
             this.context.CommandManager.InvokeCommand(playerMovePressedCommand);
         }
 

@@ -20,6 +20,8 @@ namespace nazaaaar.platformBattle.mini.view
 
         public IContext Context => context;
 
+        public Animator Animator { get => animator; set => animator = value; }
+
         public void Initialize(IContext context)
         {
             if (!isInitialized){

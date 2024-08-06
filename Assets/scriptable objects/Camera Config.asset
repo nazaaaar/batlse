@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782609b444773944d9b9cc88bb92626c, type: 3}
+  m_Name: Camera Config
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 7.5, z: -4}
+  BlueRotation: {x: 0.42261827, y: 0, z: 0, w: 0.90630776}
+  RedRotation: {x: -0.000000018473244, y: 0.90630764, z: -0.42261857, w: -0.000000039615966}
+  SmoothSpeed: 0.2

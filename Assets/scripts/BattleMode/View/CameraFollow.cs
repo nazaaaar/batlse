@@ -4,21 +4,19 @@ using RMC.Mini;
 using RMC.Mini.View;
 using UnityEngine;
 
-namespace nazaaaar.platformBattle.mini.view{
+namespace nazaaaar.platformBattle.mini.view
+{
     public class CameraFollow : MonoBehaviour, IView
     {
         public bool IsInitialized { get; private set; }
 
         public IContext Context { get; private set; }
         public Transform PlayerTransform { get => playerTransform; set => playerTransform = value; }
-
-        [SerializeField]
         private Transform playerTransform;
-
         [SerializeField]
+        private model.CameraConfig cameraConfig;        
         private Vector3 offset = new Vector3(0, 5, -10);
 
-        [SerializeField]
         private float smoothSpeed = 0.125f;
 
         private Vector3 velocity = Vector3.zero;
@@ -31,7 +29,24 @@ namespace nazaaaar.platformBattle.mini.view{
                 Context = context;
 
                 context.CommandManager.AddCommandListener<PlayerMovedCommand>(OnPlayerMoved);
+                context.CommandManager.AddCommandListener<TeamChangedCommand>(OnTeamChanged);
             }
+        }
+
+        private void OnTeamChanged(TeamChangedCommand e)
+        {
+            if (e.Team == model.Team.Red){
+                this.offset =new Vector3(cameraConfig.Offset.x, cameraConfig.Offset.y, -cameraConfig.Offset.z);
+                Debug.Log(this.offset);
+                this.transform.rotation = cameraConfig.BlueRotation;
+
+                transform.Rotate(0,180,0,Space.World);
+            }
+            else if (e.Team == model.Team.Blue){
+                this.offset = cameraConfig.Offset;
+                this.transform.rotation = cameraConfig.BlueRotation;
+            }
+            this.smoothSpeed = cameraConfig.SmoothSpeed;
         }
 
         private void OnPlayerMoved(PlayerMovedCommand e)

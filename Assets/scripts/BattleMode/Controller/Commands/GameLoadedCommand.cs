@@ -1,11 +1,8 @@
 using RMC.Mini.Controller.Commands;
-using UnityEngine;
 
 namespace nazaaaar.platformBattle.mini.controller.commands
 {
-    public class PlayerMovePressedCommand : ICommand
+    public class GameLoadedCommand: ICommand
     {
-
-        public Vector2 Vector;
     }
 }

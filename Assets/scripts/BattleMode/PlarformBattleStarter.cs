@@ -1,4 +1,6 @@
+using nazaaaar.platformBattle.mini.model;
 using nazaaaar.platformBattle.mini.view;
+using RMC.Mini;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -51,7 +53,9 @@ namespace nazaaaar.platformBattle.mini
                 shopZoneCollector,
                 pointer,
                 coinAmountUI,
-                monsterSpawner
+                monsterSpawner,
+                Team.Blue,
+                new Context()
                 );
 
             platformBattleMini.Initialize();

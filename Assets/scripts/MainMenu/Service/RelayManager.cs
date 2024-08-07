@@ -19,7 +19,6 @@ namespace nazaaaar.platformBattle.MainMenu.service{
 
         public IContext Context{ get; private set; }
 
-        public event Action<string> OnJoinCodeLoaded;
 
         public void Initialize(IContext context)
         {

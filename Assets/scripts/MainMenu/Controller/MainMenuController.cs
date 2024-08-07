@@ -56,21 +56,26 @@ namespace nazaaaar.platformBattle.MainMenu.controller{
 
         private async void Service_OnLobbyCodeConfigured(string lobbyCode)
         {
-            PlayerPrefs.SetInt("isHost", 0);
             await RelayManager.ConfigClientWithRelayAsync(lobbyCode);
-
-            SceneManager.LoadScene(1);
+            NetworkManager.Singleton.StartClient();
+            
         }
 
         private async void Service_OnLobbyFull()
         {
             Debug.Log("Lobby is full");
             string res = await RelayManager.ConfigHostWithRelayAsync();
-            
-            
+            //TODO relay start immediatly
+            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
             LobbyManager.SetLobbyJoinCode(res);
-            PlayerPrefs.SetInt("isHost", 1);
-            SceneManager.LoadScene(1);
+            
+            
+        }
+
+        private void OnClientConnectedCallback(ulong obj)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("PlayMode",LoadSceneMode.Single);
         }
 
         private void View_OnBackPressed()

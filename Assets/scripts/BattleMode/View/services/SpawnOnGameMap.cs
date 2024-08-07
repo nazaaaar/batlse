@@ -6,50 +6,58 @@ using UnityEngine.Tilemaps;
 
 namespace nazaaaar.platformBattle.mini.view
 {
-    public class SpawnOnGameMap : SpawnOnTilemapMono, ISpawnOnGameMap
+    public class SpawnOnGameMap : MonoBehaviour, ISpawnOnGameMap
     {
-        [SerializeField]
-        private int sizeX;
-        [SerializeField]
-        private int sizeY;
-
-        [SerializeField]
-        private int offsetX;
-        [SerializeField]
-        private int offsetY;
+        public model.GameMapConfig GameMapConfig { get; set; }
         [SerializeField]
         private SpawnOnTilemapMono spawnOnTilemap;
 
         public GameObject SpawnPrefabOnRandomCell(GameObject prefab, Tilemap tilemap, Transform parent){
-            Vector3Int cellPosition = new Vector3Int(UnityEngine.Random.Range(0,sizeX), UnityEngine.Random.Range(0,sizeY));
-            return spawnOnTilemap.SpawnPrefabOnCell(prefab, tilemap,cellPosition, parent);   
+            if (GameMapConfig==null) throw new Exception("GameMapConfigIsNull");
+            Vector3Int cellPosition = new Vector3Int(UnityEngine.Random.Range(0,GameMapConfig.sizeX), UnityEngine.Random.Range(0,GameMapConfig.sizeY));
+            return this.SpawnPrefabOnCell(prefab, tilemap,cellPosition, parent);   
         }
 
-        public override GameObject SpawnPrefabOnCell(GameObject prefab, Tilemap tilemap, Vector3Int cellPosition)
+        public GameObject SpawnPrefabOnCell(GameObject prefab, Tilemap tilemap, Vector3Int cellPosition)
         {
             if (spawnOnTilemap == null) throw new Exception("NotInitialized");
-            Debug.Log(cellPosition.x + ", " + cellPosition.y + ", " + cellPosition.z);
-            if (cellPosition.x > sizeX || cellPosition.y > sizeY
+            
+            if (cellPosition.x > GameMapConfig.sizeX || cellPosition.y > GameMapConfig.sizeY
             || cellPosition.x<0 || cellPosition.y<0) throw new Exception("OutOfMap");
-            cellPosition.x += offsetX;
-            cellPosition.y += offsetY;
+            cellPosition.x += GameMapConfig.offsetX;
+            cellPosition.y += GameMapConfig.offsetY;
             return  spawnOnTilemap.SpawnPrefabOnCell(prefab, tilemap, cellPosition);
         }
 
-        public override GameObject SpawnPrefabOnCell(GameObject prefab, Tilemap tilemap, Vector3Int cellPosition, Transform parent)
+
+        public GameObject SpawnPrefabOnCell(GameObject prefab, Tilemap tilemap, Vector3Int cellPosition, Transform parent)
         {
             if (spawnOnTilemap == null) throw new Exception("NotInitialized");
-            Debug.Log(cellPosition.x + ", " + cellPosition.y + ", " + cellPosition.z);
-            if (cellPosition.x > sizeX || cellPosition.y > sizeY
+
+            if (cellPosition.x > GameMapConfig.sizeX || cellPosition.y > GameMapConfig.sizeY
             || cellPosition.x<0 || cellPosition.y<0) throw new Exception("OutOfMap");
-            cellPosition.x += offsetX;
-            cellPosition.y += offsetY;
+            cellPosition.x += GameMapConfig.offsetX;
+            cellPosition.y += GameMapConfig.offsetY;
             return  spawnOnTilemap.SpawnPrefabOnCell(prefab, tilemap, cellPosition, parent);
+        }
+
+        public Vector3 GetVector3(Tilemap tilemap)
+        {
+            Vector3Int cellPosition = new Vector3Int(UnityEngine.Random.Range(0,GameMapConfig.sizeX), UnityEngine.Random.Range(0,GameMapConfig.sizeY));
+            if (spawnOnTilemap == null) throw new Exception("NotInitialized");
+            
+            if (cellPosition.x > GameMapConfig.sizeX || cellPosition.y > GameMapConfig.sizeY
+            || cellPosition.x<0 || cellPosition.y<0) throw new Exception("OutOfMap");
+            cellPosition.x += GameMapConfig.offsetX;
+            cellPosition.y += GameMapConfig.offsetY;
+
+            return spawnOnTilemap.GetVector3(tilemap, cellPosition);
         }
     }
 
     public interface ISpawnOnGameMap: ISpawnOnTilemap
     {
         public GameObject SpawnPrefabOnRandomCell(GameObject prefab, Tilemap tilemap, Transform parent);
+        Vector3 GetVector3(Tilemap tilemap);
     }
 }

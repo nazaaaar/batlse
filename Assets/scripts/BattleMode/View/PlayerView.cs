@@ -45,9 +45,6 @@ namespace nazaaaar.platformBattle.mini.view
                 isInitialized = true;
                 this.context = context;
 
-                this.context.CommandManager.AddCommandListener<PlayerMovePressedCommand>(OnPlayerMovePressed);
-                this.context.CommandManager.AddCommandListener<MoveSpeedChangedCommand>(OnMoveSpeedChanged);
-
                 this.context.CommandManager.AddCommandListener<TeamChangedCommand>(OnTeamChanged);
             }
         }
@@ -60,8 +57,12 @@ namespace nazaaaar.platformBattle.mini.view
                 }
             if (e.Team==model.Team.Red){
                 PlayerTransform.position = redPosition;
+                PlayerTransform.Rotate(0,180,0,Space.World);
                 
                 }
+
+            this.context.CommandManager.AddCommandListener<PlayerMovePressedCommand>(OnPlayerMovePressed);
+            this.context.CommandManager.AddCommandListener<MoveSpeedChangedCommand>(OnMoveSpeedChanged);
         }
 
         private void OnPlayerMovePressed(PlayerMovePressedCommand e)
@@ -89,8 +90,6 @@ namespace nazaaaar.platformBattle.mini.view
                 
                 movement = PlayerTransform.forward * MoveSpeed * Time.fixedDeltaTime;
                 characterController.Move(movement);
-                
-                
             }
             OnPlayerMoved?.Invoke(movement);
         }

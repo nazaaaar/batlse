@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
+using nazaaaar.platformBattle.mini.controller.commands;
+using nazaaaar.platformBattle.mini.model;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,6 +12,10 @@ namespace nazaaaar.platformBattle.mini.view
 {
     public class CoinView : MonoBehaviour, ICoinView
     {
+        [SerializeField]
+        private GameMapConfig redGameMapConfig;
+        [SerializeField]
+        private GameMapConfig blueGameMapConfig;
 
         [SerializeField]
         private GameObject coinPrefab;
@@ -28,24 +35,34 @@ namespace nazaaaar.platformBattle.mini.view
 
         public IContext Context {get; private set;}
 
-        public event Action OnCoinTouched;
+        public event Action<Vector3> OnCoinSpawnRequest;
 
         public void Initialize(IContext context)
         {
             if (!IsInitialized){
                 IsInitialized = true;
                 Context = context;
+                
+                Context.CommandManager.AddCommandListener<TeamChangedCommand>(OnTeamChanged);
+                
             }
         }
 
-        private void Start(){
+        private void OnTeamChanged(TeamChangedCommand e)
+        {
+            if (e.Team == model.Team.Red) 
+                spawnOnTilemap.GameMapConfig = redGameMapConfig;
+            if (e.Team == model.Team.Blue) 
+                spawnOnTilemap.GameMapConfig = blueGameMapConfig;
             StartCoroutine(FallingCycle());
         }
 
         private IEnumerator FallingCycle(){
             while (canCoinFall){
                 yield return new WaitForSeconds(coinPeriodTime);
-                spawnOnTilemap.SpawnPrefabOnRandomCell(coinPrefab, coinTilemap, transform);    
+                var coin = spawnOnTilemap.GetVector3(coinTilemap);    
+             
+                OnCoinSpawnRequest?.Invoke(coin);
             }
         }
 

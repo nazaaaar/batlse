@@ -1,9 +1,10 @@
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace nazaaaar.platformBattle.mini.view{
-public class CoinFall: MonoBehaviour, ICoinFall{
+public class CoinFall: NetworkBehaviour, ICoinFall{
     
     [SerializeField]
     public float fallSpeed;
@@ -40,6 +41,17 @@ public class CoinFall: MonoBehaviour, ICoinFall{
                 transform.position = new Vector3(transform.position.x, yLevel, transform.position.z);
             }
         }
+    }
+
+        public override void OnNetworkSpawn()
+        {
+            Reset();           
+            base.OnNetworkSpawn();
+        }
+
+        public void Reset(){
+        
+        isFalled = false;
     }
 }
 }

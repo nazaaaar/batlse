@@ -5,6 +5,8 @@ using RMC.Mini;
 using RMC.Mini.Controller;
 using System;
 using System.Linq;
+using Unity.Netcode;
+using UnityEngine;
 namespace nazaaaar.platformBattle.mini.controller
 {
     public class PlatformBattleController : IController
@@ -30,6 +32,9 @@ namespace nazaaaar.platformBattle.mini.controller
         private readonly CouldBeBoughtShopCardsChangedCommand couldBeBoughtShopCardsChangedCommand = new();
         private readonly MonsterSpawnRequestCommand monsterSpawnRequestCommand = new();
         private readonly TeamChangedCommand teamChangedCommand = new();
+
+        private readonly CoinNetworkSpawnCommand coinNetworkSpawnCommand = new();
+         private readonly CoinNetworkDespawnCommand coinNetworkDespawnCommand = new();
 
         public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView, ISpawnPointer spawnPointer, Team team)
         {
@@ -63,9 +68,16 @@ namespace nazaaaar.platformBattle.mini.controller
                 shopModel.ActiveShopCards.OnValueChanged.AddListener(ActiveShopCardsValueChanged);
                 shopView.OnAllShopCardsSoChanged += View_OnAllShopCardsSoChanged;
                 shopView.OnShopCardClick += View_OnShopCardClick;
+                coinView.OnCoinSpawnRequest += View_OnCoinSpawnRequest;
 
                 playerModel.Team.Value = team;
             }
+        }
+
+        private void View_OnCoinSpawnRequest(Vector3 vector3)
+        {
+            coinNetworkSpawnCommand.coinPos = vector3;
+            Context.CommandManager.InvokeCommand(coinNetworkSpawnCommand);
         }
 
         private void TeamValueChanged(Team oldValue, Team newValue)
@@ -161,8 +173,11 @@ namespace nazaaaar.platformBattle.mini.controller
             Context.CommandManager.InvokeCommand(couldBeBoughtShopCardsChangedCommand);
         }
 
-        private void View_OnCoinCollected()
+        private void View_OnCoinCollected(GameObject coin)
         {
+            coin.SetActive(false);
+            coinNetworkDespawnCommand.coin = coin.GetComponent<NetworkObject>();
+            Context.CommandManager.InvokeCommand(coinNetworkDespawnCommand);
             playerModel.Money.Value+=1;
         }
 

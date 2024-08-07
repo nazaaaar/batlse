@@ -27,7 +27,11 @@ namespace nazaaaar.platformBattle.MainMenu.service{
 
         async void Start()
         {
-            await UnityServices.InitializeAsync();
+            var options = new InitializationOptions();
+            var profile = Guid.NewGuid().ToString().Substring(0, 8);
+            options.SetProfile(profile);
+
+            await UnityServices.InitializeAsync(options);
             await SignInAnonymouslyAsync();
         }
 
@@ -78,7 +82,7 @@ namespace nazaaaar.platformBattle.MainMenu.service{
             if(!changes.LobbyDeleted){
                 changes.ApplyToLobby(currentLobby);
 
-                if (currentLobby.Data[JOIN_CODE] != null){
+                if (currentLobby.Data.ContainsKey(JOIN_CODE) && currentLobby.Data[JOIN_CODE]!= null){
                     OnLobbyCodeConfigured?.Invoke(currentLobby.Data[JOIN_CODE].Value);
                 }
             }
@@ -124,7 +128,6 @@ namespace nazaaaar.platformBattle.MainMenu.service{
 
         private void OnLobbyChanged(ILobbyChanges changes)
         {
-            Debug.Log("chchcanges " + changes.PlayerJoined.Changed);
             if (changes.PlayerJoined.Changed){
                 changes.ApplyToLobby(currentLobby);
                 CheckForRelay();

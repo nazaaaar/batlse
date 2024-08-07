@@ -2,17 +2,20 @@ using RMC.Mini;
 using System;
 using UnityEngine;
 using nazaaaar.platformBattle.mini.viewAbstract;
+using Unity.Netcode;
 
 namespace nazaaaar.platformBattle.mini.view
 {
     public class CoinCollector : MonoBehaviour, ICoinCollector
     {
-        public event Action OnCoinCollected;
+        public event Action<GameObject> OnCoinCollected;
         void OnControllerColliderHit(ControllerColliderHit hit){
             if (hit.gameObject.tag == "Coin")
             {
-                OnCoinCollected?.Invoke();
-                Destroy(hit.gameObject);
+                hit.gameObject.SetActive(false);
+                OnCoinCollected?.Invoke(hit.gameObject);
+                //hit.gameObject.GetComponent<NetworkObject>().Despawn();
+                //Destroy(hit.gameObject);
             }
         }
         public bool IsInitialized {get; private set;}

@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace nazaaaar.platformBattle.mini.viewAbstract
 {
-    public interface ICoinView: IView
+    public interface ICoinNetworkSpawner: IView
     {
-        public event Action<Vector3> OnCoinSpawnRequest;
     }
 }

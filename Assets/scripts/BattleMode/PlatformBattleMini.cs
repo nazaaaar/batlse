@@ -35,6 +35,7 @@ namespace nazaaaar.platformBattle.mini
         private readonly SpawnPointer spawnPointer;
         private readonly ICoinAmountUI coinAmountUI;
         private readonly IMonsterSpawner monsterSpawner;
+        private readonly ICoinNetworkSpawner coinNetworkSpawner;
         private readonly Team team;
         private PlatformBattleController platformBattleController;
 
@@ -48,7 +49,7 @@ namespace nazaaaar.platformBattle.mini
         private bool isInitialized;
         
 
-        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer, ICoinAmountUI coinAmountUI, IMonsterSpawner monsterSpawner, Team team, IContext context)
+        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer, ICoinAmountUI coinAmountUI, IMonsterSpawner monsterSpawner, ICoinNetworkSpawner coinNetworkSpawner, Team team, IContext context)
         {
             this.playerView = playerView;
             this.playerInput = playerInput;
@@ -63,6 +64,7 @@ namespace nazaaaar.platformBattle.mini
             this.spawnPointer = spawnPointer;
             this.coinAmountUI = coinAmountUI;
             this.monsterSpawner = monsterSpawner;
+            this.coinNetworkSpawner = coinNetworkSpawner;
             this.team = team;
             this.context = context;
         }
@@ -81,6 +83,7 @@ namespace nazaaaar.platformBattle.mini
                 playerMovementController = new (playerInput, playerView, playerModel);
                 
                 playerModel.Initialize (context);
+                coinNetworkSpawner.Initialize(context);
                 monsterSpawner.Initialize(context);
                 coinCollector.Initialize(context);
                 coinView.Initialize(context);

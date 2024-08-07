@@ -9,6 +9,17 @@ namespace nazaaaar.platformBattle.mini.view
         [SerializeField]
         private float yLevel;
 
+        public override Vector3 GetVector3(Tilemap tilemap, Vector3Int cellPosition)
+        {
+            Vector3 worldPosition = tilemap.CellToWorld(cellPosition);
+
+            Vector3 cellCenterPosition = worldPosition + tilemap.cellSize / 2;
+
+            cellCenterPosition.y = yLevel;
+
+            return cellCenterPosition;
+        }
+
         public override GameObject SpawnPrefabOnCell(GameObject prefab, Tilemap tilemap, Vector3Int cellPosition)
         {
             Vector3 worldPosition = tilemap.CellToWorld(cellPosition);

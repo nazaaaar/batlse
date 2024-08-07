@@ -43,23 +43,14 @@ namespace nazaaaar.platformBattle.mini
 
         [SerializeField]
         private LoadScreenView loadScreenView;
+        [SerializeField]
+        private CoinNetworkSpawner coinNetworkSpawner;
 
         private IContext context;
 
         public void Awake(){
             context = new Context();
-            loadScreenView.Initialize(context);
-
-
-            if (PlayerPrefs.GetInt("isHost") == 1){
-                Debug.Log("Starting host");
-                NetworkManager.Singleton.StartHost();
-            }
-            else{
-                Debug.Log("Starting client");
-            
-                NetworkManager.Singleton.StartClient();
-            }            
+            loadScreenView.Initialize(context);            
         } 
 
         public void StartBattle(Transform playerPrefab, model.Team team)
@@ -90,6 +81,7 @@ namespace nazaaaar.platformBattle.mini
                 pointer,
                 coinAmountUI,
                 monsterSpawner,
+                coinNetworkSpawner,
                 team,
                 context
                 );

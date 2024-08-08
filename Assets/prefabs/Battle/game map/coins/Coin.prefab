@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 5004177841924920702}
   - component: {fileID: 6776627859773148772}
   - component: {fileID: 6032094184838649660}
-  - component: {fileID: -7145610382088765562}
   - component: {fileID: 59109567722538130}
+  - component: {fileID: -7145610382088765562}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Coin
@@ -121,20 +121,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.8588817, y: 3.8588817, z: 0.69860035}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-7145610382088765562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5449737821463795560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787e45a7474e13441bbb73480124a1fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fallSpeed: 1
-  yLevel: 0.5
 --- !u!114 &59109567722538130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,3 +142,17 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 0
+--- !u!114 &-7145610382088765562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5449737821463795560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787e45a7474e13441bbb73480124a1fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallSpeed: 1
+  yLevel: 0.5

@@ -37,9 +37,16 @@ namespace nazaaaar.platformBattle.MainMenu.service{
 
         private async Task SignInAnonymouslyAsync()
         {
-            if (!AuthenticationService.Instance.IsSignedIn)
-            {
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            try{
+                if (!AuthenticationService.Instance.IsSignedIn)
+                {
+                    await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                }
+            }
+            catch (RequestFailedException e){
+                if (e.Message.Contains("Cannot resolve destination host")){
+                    Debug.Log("No Internet");
+                }
             }
         }
 

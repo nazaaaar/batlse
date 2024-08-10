@@ -21,6 +21,8 @@ namespace nazaaaar.platformBattle.MainMenu.controller{
         public LobbyManager LobbyManager { get; }
         public RelayManager RelayManager { get; }
         public CurrentPageChangedCommand CurrentPageChangedCommand { get; } = new CurrentPageChangedCommand();
+        private string lobbyCode = null;
+        private event Action OnLobbyCodeFetched;
 
         public MainMenuController(PlayerModel playerModel, ICameraView cameraView, IMenuButtonsView menuButtonsView, LobbyManager lobbyManager, RelayManager relayManager)
         {
@@ -47,6 +49,7 @@ namespace nazaaaar.platformBattle.MainMenu.controller{
                 MenuButtonsView.OnStartPressed += View_OnStartPressed;
                 MenuButtonsView.OnSettingsPressed += View_OnSettingsPressed;
                 MenuButtonsView.OnBackPressed += View_OnBackPressed;
+                LobbyManager.OnLobbyCreated += Service_OnLobbyCreated;
                 LobbyManager.OnLobbyFull += Service_OnLobbyFull;
                 LobbyManager.OnLobbyCodeConfigured += Service_OnLobbyCodeConfigured;
                 
@@ -54,27 +57,36 @@ namespace nazaaaar.platformBattle.MainMenu.controller{
 
         }
 
+        private async void Service_OnLobbyCreated()
+        {
+            lobbyCode = await RelayManager.ConfigHostWithRelayAsync();
+            OnLobbyCodeFetched?.Invoke();
+
+            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+        }
+
         private async void Service_OnLobbyCodeConfigured(string lobbyCode)
         {
+            Debug.Log("Lobby code from service  trying to config" + lobbyCode);
             await RelayManager.ConfigClientWithRelayAsync(lobbyCode);
+            Debug.Log("Lobby code from service:" + lobbyCode);
             NetworkManager.Singleton.StartClient();
             
         }
 
-        private async void Service_OnLobbyFull()
+        private void Service_OnLobbyFull()
         {
             Debug.Log("Lobby is full");
-            string res = await RelayManager.ConfigHostWithRelayAsync();
-            //TODO relay start immediatly
-            NetworkManager.Singleton.StartHost();
-            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
-            LobbyManager.SetLobbyJoinCode(res);
-            
-            
+            Debug.Log(lobbyCode);
+            if (lobbyCode == null) { OnLobbyCodeFetched += Service_OnLobbyFull; }
+            Debug.Log("Setting join code " + lobbyCode);
+            LobbyManager.SetLobbyJoinCode(lobbyCode);
         }
 
         private void OnClientConnectedCallback(ulong obj)
         {
+            Debug.Log("client connected callback");
             NetworkManager.Singleton.SceneManager.LoadScene("PlayMode",LoadSceneMode.Single);
         }
 

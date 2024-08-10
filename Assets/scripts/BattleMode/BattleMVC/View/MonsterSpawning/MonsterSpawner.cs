@@ -35,7 +35,6 @@ namespace nazaaaar.platformBattle.mini.view
             slimeMVC.Initialize();
 
             OnMonsterSpawned?.Invoke(slimeMVC.slimeController);
-
         }
 
         public void RequireIsInitialized()

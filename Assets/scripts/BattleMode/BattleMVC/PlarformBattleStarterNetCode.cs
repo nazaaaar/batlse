@@ -1,4 +1,5 @@
 using System;
+using nazaaaar.platformBattle.mini.model;
 using nazaaaar.platformBattle.mini.view;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
@@ -39,12 +40,16 @@ namespace nazaaaar.platformBattle.mini
         [SerializeField]
         private CoinAmountUI coinAmountUI;
         [SerializeField]
+        private OtherCoinAmountUI otherCoinAmountUI;
+        [SerializeField]
         private MonsterSpawner monsterSpawner;
 
         [SerializeField]
         private LoadScreenView loadScreenView;
         [SerializeField]
         private CoinNetworkSpawner coinNetworkSpawner;
+        [SerializeField]
+        private NetworkCoinsModel networkCoinsModel;
 
         private IContext context;
 
@@ -80,8 +85,10 @@ namespace nazaaaar.platformBattle.mini
                 shopZoneCollector,
                 pointer,
                 coinAmountUI,
+                otherCoinAmountUI,
                 monsterSpawner,
                 coinNetworkSpawner,
+                networkCoinsModel,
                 team,
                 context
                 );

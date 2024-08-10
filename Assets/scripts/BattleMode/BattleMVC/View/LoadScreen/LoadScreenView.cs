@@ -18,7 +18,7 @@ namespace nazaaaar.platformBattle.mini.view
     [SerializeField]
     private float fakeLoadingDuration = 7.0f; 
     [SerializeField]
-    private float timeout = 1f; 
+    private float timeout = 0.2f; 
 
     private Coroutine loadingCoroutine;
 

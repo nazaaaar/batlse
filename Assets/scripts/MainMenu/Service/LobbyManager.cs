@@ -8,6 +8,7 @@ using RMC.Mini.Service;
 using IService = RMC.Mini.Service.IService;
 using RMC.Mini;
 using System;
+using System.Collections.Generic;
 namespace nazaaaar.platformBattle.MainMenu.service{
     public class LobbyManager : MonoBehaviour, IService
     {
@@ -22,6 +23,7 @@ namespace nazaaaar.platformBattle.MainMenu.service{
         public IContext Context {get; private set;}
 
         public event Action OnLobbyFull;
+        public event Action OnLobbyCreated;
 
         public event Action<string> OnLobbyCodeConfigured;
 
@@ -45,7 +47,7 @@ namespace nazaaaar.platformBattle.MainMenu.service{
             }
             catch (RequestFailedException e){
                 if (e.Message.Contains("Cannot resolve destination host")){
-                    Debug.Log("No Internet");
+                    Debug.Log("No Internet");//TODO handle properly
                 }
             }
         }
@@ -64,6 +66,7 @@ namespace nazaaaar.platformBattle.MainMenu.service{
                 Debug.Log("Joined Lobby: " + currentLobby.Id);
                 var callbacks = new LobbyEventCallbacks();
                 callbacks.LobbyChanged += OnLobbyChangedClient;
+                
 
                 try {
                     lobbyEvents = await Lobbies.Instance.SubscribeToLobbyEventsAsync(currentLobby.Id, callbacks);
@@ -77,6 +80,8 @@ namespace nazaaaar.platformBattle.MainMenu.service{
                         default: throw;
                     }
                 }
+                MarkAsConnected();
+                Debug.Log("Subsctibed");
             }
             catch (LobbyServiceException)
             {
@@ -86,10 +91,12 @@ namespace nazaaaar.platformBattle.MainMenu.service{
 
         private void OnLobbyChangedClient(ILobbyChanges changes)
         {
+            Debug.Log("CHACHACHACHA CHANGES");
+            Debug.Log(changes.LobbyDeleted);
             if(!changes.LobbyDeleted){
                 changes.ApplyToLobby(currentLobby);
 
-                if (currentLobby.Data.ContainsKey(JOIN_CODE) && currentLobby.Data[JOIN_CODE]!= null){
+                if (!currentLobby.Data.Equals(null) && currentLobby.Data.ContainsKey(JOIN_CODE) && currentLobby.Data[JOIN_CODE]!= null){
                     OnLobbyCodeConfigured?.Invoke(currentLobby.Data[JOIN_CODE].Value);
                 }
             }
@@ -107,6 +114,7 @@ namespace nazaaaar.platformBattle.MainMenu.service{
                 var createResponse = await Lobbies.Instance.CreateLobbyAsync("LobbyName", MaxPlayers, lobbyOptions);
                 currentLobby = createResponse;
                 Debug.Log("Created Lobby: " + currentLobby.Id);
+                
                 InvokeRepeating("SendHeartbeat", 0, HeartbeatInterval);
 
                 var callbacks = new LobbyEventCallbacks();
@@ -114,6 +122,7 @@ namespace nazaaaar.platformBattle.MainMenu.service{
 
                 try {
                     lobbyEvents = await Lobbies.Instance.SubscribeToLobbyEventsAsync(currentLobby.Id, callbacks);
+                    MarkAsConnected();
                 }
                 catch (LobbyServiceException ex)
                 {
@@ -125,6 +134,8 @@ namespace nazaaaar.platformBattle.MainMenu.service{
                     }
                 }
                 CheckForRelay();
+                OnLobbyCreated?.Invoke();
+                
             }
             catch (LobbyServiceException e)
             {
@@ -135,10 +146,10 @@ namespace nazaaaar.platformBattle.MainMenu.service{
 
         private void OnLobbyChanged(ILobbyChanges changes)
         {
-            if (changes.PlayerJoined.Changed){
-                changes.ApplyToLobby(currentLobby);
-                CheckForRelay();
-            }
+            
+            changes.ApplyToLobby(currentLobby);
+            if (changes.PlayerData.Changed){
+                CheckForRelay();}
         }
 
         private async void SendHeartbeat()
@@ -154,6 +165,17 @@ namespace nazaaaar.platformBattle.MainMenu.service{
         {
             if (currentLobby.Players.Count == currentLobby.MaxPlayers)
             {
+                foreach (var player in currentLobby.Players)
+                {                            
+                    if (player == null) continue;
+
+                    if (player.Data == null) continue;
+
+                    if (!player.Data.ContainsKey("Connected") || (player.Data["Connected"]?.Value) != "true")
+                    {
+                        break;
+                    }
+                }
                 OnLobbyFull?.Invoke();
             }
         }
@@ -185,15 +207,44 @@ namespace nazaaaar.platformBattle.MainMenu.service{
             try{
                 Debug.Log("AsyncSet");
                 currentLobby = await Lobbies.Instance.UpdateLobbyAsync(currentLobby.Id, new UpdateLobbyOptions{
-                Data = new System.Collections.Generic.Dictionary<string, DataObject>{
+                Data = new Dictionary<string, DataObject>{
                     {JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member, joinCode)}
                 }
-            });}
+                
+            });
+                Debug.Log(JOIN_CODE + " " + joinCode );
+            }
             catch (LobbyServiceException ex){
                 Debug.Log(ex);
             }
 
 
         }
+
+        private async void MarkAsConnected(){
+        try
+        {
+            UpdatePlayerOptions options = new UpdatePlayerOptions();
+
+            options.Data = new Dictionary<string, PlayerDataObject>()
+            {
+                {
+                    "Connected", new PlayerDataObject(
+                        visibility: PlayerDataObject.VisibilityOptions.Member,
+                        value: "true")
+                }
+            };
+
+            string playerId = AuthenticationService.Instance.PlayerId;
+
+            var lobby = await LobbyService.Instance.UpdatePlayerAsync(currentLobby.Id, playerId, options);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
     }
+    }
+
+    
 }

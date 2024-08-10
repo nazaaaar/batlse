@@ -34,9 +34,12 @@ namespace nazaaaar.platformBattle.mini
         private readonly IShopZoneCollector shopZoneCollector;
         private readonly SpawnPointer spawnPointer;
         private readonly ICoinAmountUI coinAmountUI;
+        private readonly ICoinAmountUI otherCoinAmountUI;
         private readonly IMonsterSpawner monsterSpawner;
         private readonly ICoinNetworkSpawner coinNetworkSpawner;
+        private readonly NetworkCoinsModel networkCoinsModel;
         private readonly Team team;
+        private NetworkController networkController;
         private PlatformBattleController platformBattleController;
 
         private PlayerModel playerModel;
@@ -49,7 +52,7 @@ namespace nazaaaar.platformBattle.mini
         private bool isInitialized;
         
 
-        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer, ICoinAmountUI coinAmountUI, IMonsterSpawner monsterSpawner, ICoinNetworkSpawner coinNetworkSpawner, Team team, IContext context)
+        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer, ICoinAmountUI coinAmountUI, ICoinAmountUI otherCoinAmountUI, IMonsterSpawner monsterSpawner, ICoinNetworkSpawner coinNetworkSpawner, NetworkCoinsModel networkCoinsModel, Team team, IContext context)
         {
             this.playerView = playerView;
             this.playerInput = playerInput;
@@ -63,8 +66,10 @@ namespace nazaaaar.platformBattle.mini
             this.shopZoneCollector = shopZoneCollector;
             this.spawnPointer = spawnPointer;
             this.coinAmountUI = coinAmountUI;
+            this.otherCoinAmountUI = otherCoinAmountUI;
             this.monsterSpawner = monsterSpawner;
             this.coinNetworkSpawner = coinNetworkSpawner;
+            this.networkCoinsModel = networkCoinsModel;
             this.team = team;
             this.context = context;
         }
@@ -79,10 +84,13 @@ namespace nazaaaar.platformBattle.mini
                 
                 playerModel = new();
                 shopModel = new();
-                platformBattleController = new (coinView, coinCollector, playerModel, shopZoneCollector, shopModel,shopView,spawnPointer, team);
+                platformBattleController = new (coinView, coinCollector, playerModel, shopZoneCollector, shopModel,shopView,spawnPointer, networkCoinsModel, team);
                 playerMovementController = new (playerInput, playerView, playerModel);
+                networkController = new(networkCoinsModel,coinCollector,coinView,coinNetworkSpawner);
+                
                 
                 playerModel.Initialize (context);
+                networkCoinsModel.Initialize(context);
                 coinNetworkSpawner.Initialize(context);
                 monsterSpawner.Initialize(context);
                 coinCollector.Initialize(context);
@@ -93,6 +101,7 @@ namespace nazaaaar.platformBattle.mini
                 playerAnimation.Initialize(context);
                 platformBattleController.Initialize(context);
                 playerMovementController.Initialize (context);
+                networkController.Initialize(context);
              
                 shopView.Initialize(context);
                 coinFall?.Initialize(context);
@@ -100,6 +109,7 @@ namespace nazaaaar.platformBattle.mini
                 shopZoneCollector.Initialize(context);
                 
                 coinAmountUI.Initialize(context);
+                otherCoinAmountUI.Initialize(context);
 
                 context.CommandManager.InvokeCommand(new GameLoadedCommand());
             }

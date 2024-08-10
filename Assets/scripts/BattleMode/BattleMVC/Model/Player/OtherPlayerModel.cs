@@ -1,19 +1,17 @@
 using RMC.Core.Observables;
 using RMC.Mini;
 using RMC.Mini.Model;
-namespace nazaaaar.platformBattle.mini.model
-{
-    public class PlayerModel: BaseModel
+
+namespace nazaaaar.platformBattle.MainMenu.controller{
+    public class OtherPlayerModel: BaseModel
     {
+        public Observable<int> Money { get; } = new();
 
         public override void Initialize(IContext context)
         {
             if (!IsInitialized){
                 base.Initialize(context);
-
             }
         }
-
-        public Observable<Team> Team {get; } = new();
     }
 }

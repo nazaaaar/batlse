@@ -18,13 +18,14 @@ namespace nazaaaar.platformBattle.mini.controller
         public readonly ICoinView coinView;
         private readonly ICoinCollector coinCollector;
 
-        private readonly PlayerCoinAmountChangedCommand playerCoinAmountChangedCommand = new();
+        
 
         private readonly PlayerModel playerModel;
         private readonly IShopZoneCollector shopZoneCollector;
         private readonly ShopModel shopModel;
         private readonly IShopView shopView;
         private readonly ISpawnPointer spawnPointer;
+        private readonly NetworkCoinsModel networkCoinsModel;
         private readonly Team team;
         private readonly ShopZoneEnteredCommand shopZoneEnteredCommand = new();
         private readonly ShopZoneExitedCommand shopZoneExitedCommand = new();
@@ -32,11 +33,12 @@ namespace nazaaaar.platformBattle.mini.controller
         private readonly CouldBeBoughtShopCardsChangedCommand couldBeBoughtShopCardsChangedCommand = new();
         private readonly MonsterSpawnRequestCommand monsterSpawnRequestCommand = new();
         private readonly TeamChangedCommand teamChangedCommand = new();
+        private readonly MoneyAddRequestCommand moneyAddRequestCommand = new();
 
-        private readonly CoinNetworkSpawnCommand coinNetworkSpawnCommand = new();
-         private readonly CoinNetworkDespawnCommand coinNetworkDespawnCommand = new();
+        
+        
 
-        public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView, ISpawnPointer spawnPointer, Team team)
+        public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView, ISpawnPointer spawnPointer, NetworkCoinsModel networkCoinsModel, Team team)
         {
             this.coinView = coinView;
             this.coinCollector = coinCollector;
@@ -45,6 +47,7 @@ namespace nazaaaar.platformBattle.mini.controller
             this.shopModel = shopModel;
             this.shopView = shopView;
             this.spawnPointer = spawnPointer;
+            this.networkCoinsModel = networkCoinsModel;
             this.team = team;
         }
 
@@ -61,29 +64,32 @@ namespace nazaaaar.platformBattle.mini.controller
 
                 playerModel.Team.OnValueChanged.AddListener(TeamValueChanged);
                 coinCollector.OnCoinCollected+=View_OnCoinCollected;
-                playerModel.Money.OnValueChanged.AddListener(PlayerMoneyValueChanged);
+                
                 shopZoneCollector.OnShopZoneExited += View_OnShopZoneExired;
                 shopZoneCollector.OnShopZoneEntered += View_OnShopZoneEntered;
                 shopModel.ShopCards.OnValueChanged.AddListener(ShopCardsValueChanged);
                 shopModel.ActiveShopCards.OnValueChanged.AddListener(ActiveShopCardsValueChanged);
                 shopView.OnAllShopCardsSoChanged += View_OnAllShopCardsSoChanged;
                 shopView.OnShopCardClick += View_OnShopCardClick;
-                coinView.OnCoinSpawnRequest += View_OnCoinSpawnRequest;
+
+                Context.CommandManager.AddCommandListener<PlayerCoinAmountChangedCommand>(OnCoinAmountChange);
+                
 
                 playerModel.Team.Value = team;
             }
         }
 
-        private void View_OnCoinSpawnRequest(Vector3 vector3)
+        private void OnCoinAmountChange(PlayerCoinAmountChangedCommand e)
         {
-            coinNetworkSpawnCommand.coinPos = vector3;
-            Context.CommandManager.InvokeCommand(coinNetworkSpawnCommand);
+            HandlePlayerMoneyChangedForCards();
         }
 
         private void TeamValueChanged(Team oldValue, Team newValue)
         {
             teamChangedCommand.Team = newValue;
             Context.CommandManager.InvokeCommand(teamChangedCommand);
+
+            moneyAddRequestCommand.team=newValue;
         }
 
         private void View_OnShopCardClick(ShopCardSO sO)
@@ -95,7 +101,9 @@ namespace nazaaaar.platformBattle.mini.controller
             monsterSpawnRequestCommand.team = playerModel.Team.Value;
             Context.CommandManager.InvokeCommand(monsterSpawnRequestCommand);
             ShuffleActiveShopCards();
-            playerModel.Money.Value-=sO.cost;
+            //playerModel.Money.Value-=sO.cost;
+            moneyAddRequestCommand.amount = -sO.cost;
+            Context.CommandManager.InvokeCommand(moneyAddRequestCommand);
         }
 
         private void View_OnAllShopCardsSoChanged(ShopCardSO[] so)
@@ -121,7 +129,7 @@ namespace nazaaaar.platformBattle.mini.controller
         {
             foreach (var shopCard in newValue)
             {
-                shopCard.CouldBeChanged = shopCard.shopCardSO.cost <= playerModel.Money.Value;
+                shopCard.CouldBeChanged = shopCard.shopCardSO.cost <= networkCoinsModel.MyCoins().Value;
             }
         }
 
@@ -154,12 +162,7 @@ namespace nazaaaar.platformBattle.mini.controller
             Context.CommandManager.InvokeCommand(shopZoneExitedCommand);
         }
 
-        private void PlayerMoneyValueChanged(int oldValue, int newValue)
-        {
-            playerCoinAmountChangedCommand.coinAmount = newValue;
-            Context.CommandManager.InvokeCommand(playerCoinAmountChangedCommand);
-            HandlePlayerMoneyChangedForCards();
-        }
+        
 
         private void HandlePlayerMoneyChangedForCards()
         {
@@ -176,9 +179,8 @@ namespace nazaaaar.platformBattle.mini.controller
         private void View_OnCoinCollected(GameObject coin)
         {
             coin.SetActive(false);
-            coinNetworkDespawnCommand.coin = coin.GetComponent<NetworkObject>();
-            Context.CommandManager.InvokeCommand(coinNetworkDespawnCommand);
-            playerModel.Money.Value+=1;
+            moneyAddRequestCommand.amount = 1;
+            Context.CommandManager.InvokeCommand(moneyAddRequestCommand);
         }
 
         public void RequireIsInitialized()

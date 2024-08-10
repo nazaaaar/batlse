@@ -11,7 +11,7 @@ namespace nazaaaar.platformBattle.mini.controller
 {
     public class PlayerMovementController : IController
     {
-        private readonly UnityEngine.InputSystem.PlayerInput playerInput;
+        private readonly PlayerInput playerInput;
         private readonly IPlayerView playerView;
         private readonly PlayerModel playerModel;
         private bool isInitialized;
@@ -64,7 +64,7 @@ namespace nazaaaar.platformBattle.mini.controller
 
         public void RequireIsInitialized()
         {
-            if (!isInitialized){throw new System.Exception("MustBeInitialized");}
+            if (!isInitialized){throw new Exception("MustBeInitialized");}
         }
     }
 }

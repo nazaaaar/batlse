@@ -718,7 +718,7 @@ GameObject:
   - component: {fileID: 811802370180542854}
   - component: {fileID: 2441560803044326362}
   m_Layer: 0
-  m_Name: TurtleShellPolyart
+  m_Name: Turtle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -42,7 +42,7 @@ namespace nazaaaar.platformBattle.mini
         [SerializeField]
         private OtherCoinAmountUI otherCoinAmountUI;
         [SerializeField]
-        private MonsterSpawner monsterSpawner;
+        private MonsterNetworkSpawner monsterSpawner;
 
         [SerializeField]
         private LoadScreenView loadScreenView;

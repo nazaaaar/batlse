@@ -6,13 +6,10 @@ using UnityEngine;
 
 namespace nazaaaar.slime.mini.viewAbstract
 {
-    public interface ISlimeView : IView
+    public interface ISlimeAnimation : IView
     {
-        Vector3 Position { get;}
+        event Action OnSlimeDiedEndAnimation;
 
-        event Action<IMonster> OnTargetHit;
         void DestroySelf();
-
-        GameObject GameObject{get;}
     }
 }

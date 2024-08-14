@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fff01ddb8d6cdc49b462ffecc247b2b, type: 3}
   m_Name: Big slime
   m_EditorClassIdentifier: 
+  Id: d5cf160b-1015-443e-9d47-dd40dfa58d26
   prefab: {fileID: 1963937122804461078, guid: 5e40b32431e1a9e4884d2a2292239527, type: 3}
-  health: 0
-  damage: 0
-  agroRange: 0
+  health: 100
+  damage: 30
+  agroRange: 3
   speed: 0.5
-  attackSpeed: 0
+  attackSpeed: 1
+  attackRange: 1.5

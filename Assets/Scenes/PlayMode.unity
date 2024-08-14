@@ -17040,7 +17040,6 @@ GameObject:
   m_Component:
   - component: {fileID: 984926209}
   - component: {fileID: 984926211}
-  - component: {fileID: 984926212}
   - component: {fileID: 984926213}
   m_Layer: 0
   m_Name: mini
@@ -17099,18 +17098,6 @@ MonoBehaviour:
   - {fileID: 855071123}
   - {fileID: 978223104}
   - {fileID: 475947913}
---- !u!114 &984926212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 984926206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f548b7f6b160baa40a1ff4f27027d844, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &984926213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17136,7 +17123,7 @@ MonoBehaviour:
   pointer: {fileID: 984926211}
   coinAmountUI: {fileID: 2222742978620710453}
   otherCoinAmountUI: {fileID: 2222742978620710454}
-  monsterSpawner: {fileID: 984926212}
+  monsterSpawner: {fileID: 1372146239}
   loadScreenView: {fileID: 5694697498487383775}
   coinNetworkSpawner: {fileID: 1372146237}
   networkCoinsModel: {fileID: 1372146238}
@@ -22885,8 +22872,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -1233256888997081966, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
+      propertyPath: PooledPrefabsList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -1233256888997081966, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
+      propertyPath: PooledPrefabsList.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 1963937122804461078, guid: 5e40b32431e1a9e4884d2a2292239527, type: 3}
+    - target: {fileID: -1233256888997081966, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
+      propertyPath: PooledPrefabsList.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 7415476017966358040, guid: 695b936f98998c1418ae31c318ad9ce5, type: 3}
+    - target: {fileID: -1233256888997081966, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
       propertyPath: PooledPrefabsList.Array.data[0].PrewarmCount
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -1233256888997081966, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
+      propertyPath: PooledPrefabsList.Array.data[1].PrewarmCount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -1233256888997081966, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
+      propertyPath: PooledPrefabsList.Array.data[2].PrewarmCount
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 968921608976365353, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
       propertyPath: m_Name
@@ -22950,6 +22957,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 968921608976365353, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1372146238}
+    - targetCorrespondingSourceObject: {fileID: 968921608976365353, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1372146239}
   m_SourcePrefab: {fileID: 100100000, guid: 7f441ec798f156d4e8478f4cb0adf341, type: 3}
 --- !u!1 &1372146236 stripped
 GameObject:
@@ -22979,6 +22989,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5164ad06a6ca76140be687af0471f624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1372146239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372146236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f548b7f6b160baa40a1ff4f27027d844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1375436562 stripped

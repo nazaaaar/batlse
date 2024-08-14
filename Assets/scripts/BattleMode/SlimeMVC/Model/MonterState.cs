@@ -1,7 +1,9 @@
 namespace nazaaaar.slime.mini.model
 {
-    public enum MonterState{
+    public enum MonsterState{
+        Spawning,
         Moving,
         Battling,
+        Dying,
     }
 }

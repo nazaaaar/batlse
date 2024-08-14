@@ -9,7 +9,7 @@ using Unity.Netcode;
 using UnityEngine;
 namespace nazaaaar.platformBattle.mini.controller
 {
-    public class PlatformBattleController : IController
+    public class ShopController : IController
     {
         public bool IsInitialized {get; private set;}
 
@@ -38,7 +38,7 @@ namespace nazaaaar.platformBattle.mini.controller
         
         
 
-        public PlatformBattleController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView, ISpawnPointer spawnPointer, NetworkCoinsModel networkCoinsModel, Team team)
+        public ShopController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView, ISpawnPointer spawnPointer, NetworkCoinsModel networkCoinsModel, Team team)
         {
             this.coinView = coinView;
             this.coinCollector = coinCollector;
@@ -94,7 +94,6 @@ namespace nazaaaar.platformBattle.mini.controller
 
         private void View_OnShopCardClick(ShopCardSO sO)
         {
-            
             monsterSpawnRequestCommand.Position = spawnPointer.Position;
             monsterSpawnRequestCommand.Position.y = 0;
             monsterSpawnRequestCommand.MonsterSO = sO.monsterSO;

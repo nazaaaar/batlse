@@ -56,17 +56,9 @@ namespace nazaaaar.platformBattle.mini.model{
         public void AddCoinsRpc(int amount, Team team){
             if (team == Team.Red){
                 RedCoins.Value += amount;
-                UnityEngine.Debug.Log("red" + RedCoins.Value);
-                UnityEngine.Debug.Log("my" + MyCoins().Value);
-                UnityEngine.Debug.Log("blue" + BlueCoins.Value);
-                UnityEngine.Debug.Log("other" + OtherCoins().Value);
             }
             else if (team == Team.Blue){
                 BlueCoins.Value += amount;
-                UnityEngine.Debug.Log("red" + RedCoins.Value);
-                UnityEngine.Debug.Log("my" + MyCoins().Value);
-                UnityEngine.Debug.Log("blue" + BlueCoins.Value);
-                UnityEngine.Debug.Log("other" + OtherCoins().Value);
             }
         }
     }

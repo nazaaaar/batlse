@@ -21,7 +21,7 @@ namespace nazaaaar.platformBattle.mini
 
         public bool IsInitialized => isInitialized;
 
-        public PlatformBattleController PlatformBattleController { get => platformBattleController; set => platformBattleController = value; }
+        public ShopController ShopController { get => shopController; set => shopController = value; }
         private readonly IPlayerView playerView;
         private readonly PlayerInput playerInput;
         private readonly IPlayerAnimation playerAnimation;
@@ -39,8 +39,10 @@ namespace nazaaaar.platformBattle.mini
         private readonly ICoinNetworkSpawner coinNetworkSpawner;
         private readonly NetworkCoinsModel networkCoinsModel;
         private readonly Team team;
+        private MonstersController monstersController;
         private NetworkController networkController;
-        private PlatformBattleController platformBattleController;
+        private MonstersList monstersList;
+        private ShopController shopController;
 
         private PlayerModel playerModel;
         private ShopModel shopModel;
@@ -83,13 +85,17 @@ namespace nazaaaar.platformBattle.mini
                 
                 
                 playerModel = new();
+                monstersList = new();
                 shopModel = new();
-                platformBattleController = new (coinView, coinCollector, playerModel, shopZoneCollector, shopModel,shopView,spawnPointer, networkCoinsModel, team);
+                monstersController = new(monstersList);
+                shopController = new (coinView, coinCollector, playerModel, shopZoneCollector, shopModel,shopView,spawnPointer, networkCoinsModel, team);
                 playerMovementController = new (playerInput, playerView, playerModel);
-                networkController = new(networkCoinsModel,coinCollector,coinView,coinNetworkSpawner);
+                networkController = new(networkCoinsModel,coinCollector,coinView,coinNetworkSpawner,monsterSpawner);
                 
                 
                 playerModel.Initialize (context);
+                monstersList.Initialize(context);
+                shopModel.Initialize (context);
                 networkCoinsModel.Initialize(context);
                 coinNetworkSpawner.Initialize(context);
                 monsterSpawner.Initialize(context);
@@ -99,9 +105,10 @@ namespace nazaaaar.platformBattle.mini
                 spawnPointer.Initialize(context);
                 playerView.Initialize (context);
                 playerAnimation.Initialize(context);
-                platformBattleController.Initialize(context);
+                shopController.Initialize(context);
                 playerMovementController.Initialize (context);
                 networkController.Initialize(context);
+                monstersController.Initialize(context);
              
                 shopView.Initialize(context);
                 coinFall?.Initialize(context);

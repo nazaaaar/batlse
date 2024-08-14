@@ -1,10 +1,11 @@
+using nazaaaar.platformBattle.mini.model;
 using nazaaaar.slime.mini.model;
 using RMC.Mini.Controller.Commands;
 
 namespace nazaaaar.slime.mini.controller.commands
 {
-    public class MonsterStateChangedCommand: ICommand
+    public struct MonsterAttackRangeCommand: ICommand
     {
-        public MonsterState monsterState;
+        public float attackRange;
     }
 }

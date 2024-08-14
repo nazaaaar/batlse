@@ -20,18 +20,23 @@ namespace nazaaaar.platformBattle.mini.controller{
         private readonly ICoinView coinView;
         private readonly ICoinCollector coinCollector;
         private readonly NetworkCoinsModel networkCoinsModel;
+        private readonly IMonsterSpawner monsterNetworkSpawner;
         private readonly PlayerCoinAmountChangedCommand playerCoinAmountChangedCommand = new();
         private readonly OtherCoinAmountChangedCommand otherCoinAmountChangedCommand = new();
 
         private readonly CoinNetworkSpawnCommand coinNetworkSpawnCommand = new();
         private readonly CoinNetworkDespawnCommand coinNetworkDespawnCommand = new();
 
-        public NetworkController(NetworkCoinsModel networkCoinsModel, ICoinCollector coinCollector, ICoinView coinView, ICoinNetworkSpawner coinNetworkSpawner)
+        private readonly MonsterSpawnedCommand monsterSpawnedCommand = new();
+
+
+        public NetworkController(NetworkCoinsModel networkCoinsModel, ICoinCollector coinCollector, ICoinView coinView, ICoinNetworkSpawner coinNetworkSpawner, IMonsterSpawner monsterNetworkSpawner)
         {
             this.networkCoinsModel = networkCoinsModel;
             this.coinCollector = coinCollector;
             this.coinView = coinView;
             this.coinNetworkSpawner = coinNetworkSpawner;
+            this.monsterNetworkSpawner = monsterNetworkSpawner;
         }
 
         public void Dispose()
@@ -48,9 +53,16 @@ namespace nazaaaar.platformBattle.mini.controller{
                 coinCollector.OnCoinCollected+=View_OnCoinCollected;
                 networkCoinsModel.MyCoins().OnValueChanged += PlayerMoneyValueChanged;
                 networkCoinsModel.OtherCoins().OnValueChanged += OtherMoneyValueChanged;
+                monsterNetworkSpawner.OnMonsterSpawned+=View_OnMonsterSpawned;
 
                 Context.CommandManager.AddCommandListener<MoneyAddRequestCommand>(OnMoneyAddRequest);
             }
+        }
+
+        private void View_OnMonsterSpawned(IMonster monster)
+        {
+            monsterSpawnedCommand.Monster = monster;
+            Context.CommandManager.InvokeCommand(monsterSpawnedCommand);
         }
 
         private void OtherMoneyValueChanged(int previousValue, int newValue)

@@ -12,11 +12,14 @@ namespace nazaaaar.platformBattle.MainMenu.mini
         public PageSwitcher pageSwitcher;
         public LobbyManager lobbyManager;
         public RelayManager relayManager;
+        public AdsInitializer adsInitializer;
+        public AdsManager adsManager;
+        public RewardedAdsButton rewardedAdsButton;
 
         void Awake(){
 
             MainMenuMini platformBattleMini =
-            new (cameraView, menuButtonsView, pageSwitcher, lobbyManager, relayManager);
+            new (cameraView, menuButtonsView, pageSwitcher, lobbyManager, relayManager, adsInitializer, adsManager, rewardedAdsButton);
 
             platformBattleMini.Initialize();
         }

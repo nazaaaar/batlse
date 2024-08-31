@@ -91,7 +91,7 @@ namespace nazaaaar.platformBattle.MainMenu.service
 
         private void OnLobbyChangedClient(ILobbyChanges changes)
         {
-            Debug.Log("CHACHACHACHA CHANGES");
+            Debug.Log("change: is lobby deleted?");
             Debug.Log(changes.LobbyDeleted);
             if(!changes.LobbyDeleted){
                 changes.ApplyToLobby(currentLobby);

@@ -4,6 +4,7 @@ using nazaaaar.slime.mini.viewAbstract;
 using nazaaaar.slime.mini.controller.commands;
 using nazaaaar.slime.mini.model;
 using System;
+using System.Collections;
 
 namespace nazaaaar.slime.mini.view
 {
@@ -17,6 +18,7 @@ namespace nazaaaar.slime.mini.view
         public Animator Animator { get; set; }
 
         public event Action OnSlimeDiedEndAnimation;
+        public event Action OnSlimeVictoryEndAnimation;
 
         public void Initialize(IContext context)
         {
@@ -53,8 +55,17 @@ namespace nazaaaar.slime.mini.view
                 case MonsterState.Battling:
                     Animator.SetTrigger("Run");
                     break;
+                case MonsterState.Victory:
+                    Animator.SetTrigger("Victory");
+                    StartCoroutine(ScheduleVictotyEnd(2.2f));
+                    break;
             }
 
+        }
+
+        private IEnumerator ScheduleVictotyEnd(float delay){
+            yield return new WaitForSeconds(delay);
+            OnSlimeVictoryEndAnimation?.Invoke();
         }
 
         public void RequireIsInitialized()

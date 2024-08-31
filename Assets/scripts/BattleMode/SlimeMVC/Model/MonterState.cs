@@ -5,5 +5,6 @@ namespace nazaaaar.slime.mini.model
         Moving,
         Battling,
         Dying,
+        Victory,
     }
 }

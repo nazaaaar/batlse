@@ -48,6 +48,7 @@ namespace nazaaaar.platformBattle.mini
         private NetworkController networkController;
         private MonstersList monstersList;
         private ShopController shopController;
+        private RewardController rewardController;
 
         private PlayerModel playerModel;
         private TimeModel timeModel;
@@ -99,6 +100,7 @@ namespace nazaaaar.platformBattle.mini
                 monstersList = new();
                 shopModel = new();
                 timeController = new(timerService,timeModel,timerView, gameEndButton);
+                rewardController = new();
                 monstersController = new(monstersList);
                 shopController = new (coinView, coinCollector, playerModel, shopZoneCollector, shopModel,shopView,spawnPointer, networkCoinsModel, team);
                 playerMovementController = new (playerInput, playerView, playerModel);
@@ -125,6 +127,8 @@ namespace nazaaaar.platformBattle.mini
                 networkController.Initialize(context);
                 timeController.Initialize(context);
                 monstersController.Initialize(context);
+                rewardController.Initialize(context);
+
 
                 gameEndButton.Initialize(context);
                 shopView.Initialize(context);

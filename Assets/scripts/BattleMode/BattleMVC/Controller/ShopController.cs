@@ -32,9 +32,6 @@ namespace nazaaaar.platformBattle.mini.controller
         private readonly CouldBeBoughtShopCardsChangedCommand couldBeBoughtShopCardsChangedCommand = new();
         private readonly MonsterSpawnRequestCommand monsterSpawnRequestCommand = new();
         private readonly TeamChangedCommand teamChangedCommand = new();
-        private readonly MoneyAddRequestCommand moneyAddRequestCommand = new();
-
-        
         
 
         public ShopController(ICoinView coinView, ICoinCollector coinCollector, PlayerModel playerModel, IShopZoneCollector shopZoneCollector, ShopModel shopModel, IShopView shopView, ISpawnPointer spawnPointer, NetworkCoinsModel networkCoinsModel, Team team)
@@ -87,8 +84,6 @@ namespace nazaaaar.platformBattle.mini.controller
         {
             teamChangedCommand.Team = newValue;
             Context.CommandManager.InvokeCommand(teamChangedCommand);
-
-            moneyAddRequestCommand.team=newValue;
         }
 
         private void View_OnShopCardClick(ShopCardSO sO)
@@ -100,7 +95,12 @@ namespace nazaaaar.platformBattle.mini.controller
             Context.CommandManager.InvokeCommand(monsterSpawnRequestCommand);
             ShuffleActiveShopCards();
             //playerModel.Money.Value-=sO.cost;
-            moneyAddRequestCommand.amount = -sO.cost;
+            MoneyAddRequestCommand moneyAddRequestCommand = new()
+            {
+                amount = -sO.cost,
+                team = playerModel.Team.Value
+            };
+
             Context.CommandManager.InvokeCommand(moneyAddRequestCommand);
         }
 
@@ -177,7 +177,11 @@ namespace nazaaaar.platformBattle.mini.controller
         private void View_OnCoinCollected(GameObject coin)
         {
             coin.SetActive(false);
-            moneyAddRequestCommand.amount = 1;
+            MoneyAddRequestCommand moneyAddRequestCommand = new()
+            {
+                amount = 1,
+                team = playerModel.Team.Value
+            };
             Context.CommandManager.InvokeCommand(moneyAddRequestCommand);
         }
 

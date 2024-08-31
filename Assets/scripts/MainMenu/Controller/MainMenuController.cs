@@ -68,7 +68,6 @@ namespace nazaaaar.platformBattle.MainMenu.controller
 
         private async void Service_OnLobbyCodeConfigured(string lobbyCode)
         {
-            Debug.Log("Lobby code from service  trying to config" + lobbyCode);
             await RelayManager.ConfigClientWithRelayAsync(lobbyCode);
             Debug.Log("Lobby code from service:" + lobbyCode);
             NetworkManager.Singleton.StartClient();
@@ -80,7 +79,7 @@ namespace nazaaaar.platformBattle.MainMenu.controller
             Debug.Log("Lobby is full");
             Debug.Log(lobbyCode);
             if (lobbyCode == null) { OnLobbyCodeFetched += Service_OnLobbyFull; }
-            Debug.Log("Setting join code " + lobbyCode);
+            
             LobbyManager.SetLobbyJoinCode(lobbyCode);
         }
 

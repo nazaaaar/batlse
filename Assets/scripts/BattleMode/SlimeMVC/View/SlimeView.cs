@@ -154,9 +154,7 @@ namespace nazaaaar.slime.mini.view
         private void HandleBattleMovement(Vector3 difference)
         {
             CharacterController?.Move(transform.forward * slimeModel.Speed.Value*Time.fixedDeltaTime);    
-            if (transform.position.z >= slimeModel.BoundZ.Value){
-                OnEndLinePassed?.Invoke();
-            }
+            CheckForEndLine();
         }
         private IEnumerator StartFight(float delay){
             yield return new WaitForSeconds(delay);
@@ -181,9 +179,18 @@ namespace nazaaaar.slime.mini.view
 
         private void HandleMovement()
         {
-            CharacterController?.Move(transform.forward * slimeModel.Speed.Value*Time.fixedDeltaTime);    
-            if (transform.position.z >= slimeModel.BoundZ.Value){
-                OnEndLinePassed?.Invoke();
+            CharacterController?.Move(transform.forward * slimeModel.Speed.Value * Time.fixedDeltaTime);
+            CheckForEndLine();
+        }
+
+        private void CheckForEndLine()
+        {
+            switch (slimeModel.Team.Value)
+            {
+                case Team.Blue when transform.position.z >= slimeModel.BoundZ.Value:
+                case Team.Red when transform.position.z <= slimeModel.BoundZ.Value:
+                    OnEndLinePassed?.Invoke();
+                    break;
             }
         }
 

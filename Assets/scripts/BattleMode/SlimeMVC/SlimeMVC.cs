@@ -69,12 +69,17 @@ namespace nazaaaar.slime.mini
                 slimeModel.Team.Value = team;
                 slimeModel.BaseDirection.Value = rotation;
                 slimeModel.FirstAttackDelay.Value = monsterSO.firstAttackDelay;
-                if (team == Team.Red){
-                    slimeModel.BoundZ.Value = 2.5f;
+                switch (team)
+                {
+                    case Team.Red:
+                        slimeModel.BoundZ.Value = 2.5f;
+                        break;
+                    case Team.Blue:
+                        slimeModel.BoundZ.Value = 10.5f;
+                        break;
                 }
-                else if (team == Team.Blue){
-                    slimeModel.BoundZ.Value = 10.5f;
-                }
+
+                Debug.Log(slimeModel.BoundZ.Value);
 
                 slimeAnimation.Initialize(LocalContext);
                 slimeFinder.Initialize(LocalContext);

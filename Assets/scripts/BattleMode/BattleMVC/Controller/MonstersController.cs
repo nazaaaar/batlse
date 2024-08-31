@@ -1,3 +1,4 @@
+using System;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
 using nazaaaar.slime.mini.controller.commands;
@@ -33,22 +34,34 @@ namespace nazaaaar.platformBattle.mini.controller
 
                 Context.CommandManager.AddCommandListener<MonsterSpawnedCommand>(OnMonsterSpawned);
                 Context.CommandManager.AddCommandListener<MonsterDeadCommand>(OnMonsterDead);
+                Context.CommandManager.AddCommandListener<MonsterVictoryCommand>(OnMonsterVictory);
                 
             }
         }
 
+        private void OnMonsterVictory(MonsterVictoryCommand e)
+        {
+            RemoveMonster(e.monster);
+        }
+
         private void OnMonsterDead(MonsterDeadCommand e)
         {
-            if (e.monster.Team==Team.Red){
-                monstersList.RedMonsters.Remove(e.monster);
-                
-            }
-            else if (e.monster.Team==Team.Blue){
-                monstersList.BlueMonsters.Remove(e.monster);
-                
-            }
-            Context.CommandManager.InvokeCommand(new MonsterDeathConfirmedCommand(){monster = e.monster});
+            RemoveMonster(e.monster);
+        }
 
+        private void RemoveMonster(IMonster monster)
+        {
+            if (monster.Team == Team.Red)
+            {
+                monstersList.RedMonsters.Remove(monster);
+
+            }
+            else if (monster.Team == Team.Blue)
+            {
+                monstersList.BlueMonsters.Remove(monster);
+
+            }
+            Context.CommandManager.InvokeCommand(new MonsterDeathConfirmedCommand() { monster = monster });
         }
 
         private void OnMonsterSpawned(MonsterSpawnedCommand e)

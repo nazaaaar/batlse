@@ -39,7 +39,6 @@ namespace nazaaaar.platformBattle.mini.view
                 
                 NetworkObjectPool.Singleton.ReturnNetworkObject(networkObject, e.monsterSO.prefab);
                 networkObject.Despawn(destroy: false);
-                
             }
         }
 

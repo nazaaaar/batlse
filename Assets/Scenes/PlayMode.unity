@@ -37050,7 +37050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8221037321698328640, guid: 6642a78861c31ab45961969ae287d6b9, type: 3}
       propertyPath: maxTime
-      value: 11
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8221037321698328640, guid: 6642a78861c31ab45961969ae287d6b9, type: 3}
       propertyPath: coinView

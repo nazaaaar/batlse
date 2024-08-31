@@ -100,17 +100,24 @@ namespace nazaaaar.slime.mini.controller
                 slimeView.OnTargetHit += View_OnTargetHit;
                 slimeModel.AttackRange.Value = slimeModel.AttackRange.Value;
                 slimeAnimation.OnSlimeDiedEndAnimation+= View_OnDeathAnimationEnd;
+                slimeAnimation.OnSlimeVictoryEndAnimation+=View_OnVictoryAnimationEnd;
                 slimeView.OnEndLinePassed += View_OnEndLinePassed;
 
                 globalContext.CommandManager.AddCommandListener<MonsterDeathConfirmedCommand>(Gloabal_OnMonsterDeathConfirmed);
             }
         }
 
+        private void View_OnVictoryAnimationEnd()
+        {
+            Dispose();
+        }
+
         private void View_OnEndLinePassed()
         {
+            slimeModel.MonterState.Value = MonsterState.Victory;
             slimeView.OnEndLinePassed -= View_OnEndLinePassed;
-            var deathCommand = new MonsterDeadCommand(){monster = this};
-            globalContext.CommandManager.InvokeCommand(deathCommand);   
+            var victoryCommand = new MonsterVictoryCommand(){monster = this};
+            globalContext.CommandManager.InvokeCommand(victoryCommand);   
             
         }
 

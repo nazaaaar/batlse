@@ -1,10 +1,7 @@
-using System;
 using nazaaaar.platformBattle.mini.model;
+using nazaaaar.platformBattle.mini.service;
 using nazaaaar.platformBattle.mini.view;
-using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
-using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,10 +27,6 @@ namespace nazaaaar.platformBattle.mini
         [SerializeField] 
         private ShopView shopView;
         [SerializeField]
-        private CoinRotation coinRotation;
-        [SerializeField]
-        private CoinFall coinFall;
-        [SerializeField]
         private ShopZoneCollector shopZoneCollector;
         [SerializeField]
         private SpawnPointer pointer;
@@ -50,6 +43,21 @@ namespace nazaaaar.platformBattle.mini
         private CoinNetworkSpawner coinNetworkSpawner;
         [SerializeField]
         private NetworkCoinsModel networkCoinsModel;
+        [SerializeField]
+        private TimerService timerService;
+        [SerializeField]
+        private TimerView timerView;
+
+        [SerializeField]
+        private GameEndView gameEndView;
+        [SerializeField]
+        private GameEndButton gameEndButton;
+
+        /// <summary>
+        /// Time in seconds after game stop
+        /// </summary>
+        [SerializeField]
+        private int maxTime = 180;
 
         private IContext context;
 
@@ -59,9 +67,7 @@ namespace nazaaaar.platformBattle.mini
         } 
 
         public void StartBattle(Transform playerPrefab, model.Team team)
-        {
-
-            
+        {   
             playerView.CharacterController = playerPrefab.GetComponent<CharacterController>();
             playerAnimation.Animator = playerPrefab.GetComponent<Animator>();
 
@@ -80,8 +86,6 @@ namespace nazaaaar.platformBattle.mini
                 coinView,
                 coinCollector,
                 shopView,
-                coinRotation,
-                coinFall,
                 shopZoneCollector,
                 pointer,
                 coinAmountUI,
@@ -89,7 +93,12 @@ namespace nazaaaar.platformBattle.mini
                 monsterSpawner,
                 coinNetworkSpawner,
                 networkCoinsModel,
+                timerService,
+                timerView,
+                gameEndView,
+                gameEndButton,
                 team,
+                maxTime,
                 context
                 );
 

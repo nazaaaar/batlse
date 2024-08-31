@@ -1,11 +1,11 @@
 using nazaaaar.platformBattle.mini.controller;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
+using nazaaaar.platformBattle.mini.service;
 using nazaaaar.platformBattle.mini.view;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
 using System;
-using System.Diagnostics;
 using UnityEngine.InputSystem;
 namespace nazaaaar.platformBattle.mini
 {
@@ -38,13 +38,20 @@ namespace nazaaaar.platformBattle.mini
         private readonly IMonsterSpawner monsterSpawner;
         private readonly ICoinNetworkSpawner coinNetworkSpawner;
         private readonly NetworkCoinsModel networkCoinsModel;
+        private readonly TimerService timerService;
+        private readonly ITimerView timerView;
+        private readonly IGameEndView gameEndView;
+        private readonly IGameEndButton gameEndButton;
         private readonly Team team;
+        private readonly int maxTime;
         private MonstersController monstersController;
         private NetworkController networkController;
         private MonstersList monstersList;
         private ShopController shopController;
 
         private PlayerModel playerModel;
+        private TimeModel timeModel;
+        private TimeController timeController;
         private ShopModel shopModel;
 
         private IContext context;
@@ -54,7 +61,7 @@ namespace nazaaaar.platformBattle.mini
         private bool isInitialized;
         
 
-        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, CoinRotation coinRotation, ICoinFall coinFall, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer, ICoinAmountUI coinAmountUI, ICoinAmountUI otherCoinAmountUI, IMonsterSpawner monsterSpawner, ICoinNetworkSpawner coinNetworkSpawner, NetworkCoinsModel networkCoinsModel, Team team, IContext context)
+        public PlatformBattleMini(IPlayerView playerView, PlayerInput playerInput, IPlayerAnimation playerAnimation, CameraFollow cameraFollow, CoinView coinView, CoinCollector coinCollector, IShopView shopView, IShopZoneCollector shopZoneCollector, SpawnPointer spawnPointer, ICoinAmountUI coinAmountUI, ICoinAmountUI otherCoinAmountUI, IMonsterSpawner monsterSpawner, ICoinNetworkSpawner coinNetworkSpawner, NetworkCoinsModel networkCoinsModel, service.TimerService timerService, ITimerView timerView, IGameEndView gameEndView, IGameEndButton gameEndButton, Team team, int maxTime, IContext context)
         {
             this.playerView = playerView;
             this.playerInput = playerInput;
@@ -63,8 +70,6 @@ namespace nazaaaar.platformBattle.mini
             this.coinView = coinView;
             this.coinCollector = coinCollector;
             this.shopView = shopView;
-            this.coinRotation = coinRotation;
-            this.coinFall = coinFall;
             this.shopZoneCollector = shopZoneCollector;
             this.spawnPointer = spawnPointer;
             this.coinAmountUI = coinAmountUI;
@@ -72,7 +77,12 @@ namespace nazaaaar.platformBattle.mini
             this.monsterSpawner = monsterSpawner;
             this.coinNetworkSpawner = coinNetworkSpawner;
             this.networkCoinsModel = networkCoinsModel;
+            this.timerService = timerService;
+            this.timerView = timerView;
+            this.gameEndView = gameEndView;
+            this.gameEndButton = gameEndButton;
             this.team = team;
+            this.maxTime = maxTime;
             this.context = context;
         }
 
@@ -85,15 +95,19 @@ namespace nazaaaar.platformBattle.mini
                 
                 
                 playerModel = new();
+                timeModel = new(maxTime);
                 monstersList = new();
                 shopModel = new();
+                timeController = new(timerService,timeModel,timerView, gameEndButton);
                 monstersController = new(monstersList);
                 shopController = new (coinView, coinCollector, playerModel, shopZoneCollector, shopModel,shopView,spawnPointer, networkCoinsModel, team);
                 playerMovementController = new (playerInput, playerView, playerModel);
                 networkController = new(networkCoinsModel,coinCollector,coinView,coinNetworkSpawner,monsterSpawner);
                 
-                
                 playerModel.Initialize (context);
+                timeModel.Initialize(context);
+                timerService.Initialize(context);
+                timerView.Initialize(context);
                 monstersList.Initialize(context);
                 shopModel.Initialize (context);
                 networkCoinsModel.Initialize(context);
@@ -105,14 +119,15 @@ namespace nazaaaar.platformBattle.mini
                 spawnPointer.Initialize(context);
                 playerView.Initialize (context);
                 playerAnimation.Initialize(context);
+                gameEndView.Initialize(context);
                 shopController.Initialize(context);
                 playerMovementController.Initialize (context);
                 networkController.Initialize(context);
+                timeController.Initialize(context);
                 monstersController.Initialize(context);
-             
+
+                gameEndButton.Initialize(context);
                 shopView.Initialize(context);
-                coinFall?.Initialize(context);
-                coinRotation?.Initialize(context);
                 shopZoneCollector.Initialize(context);
                 
                 coinAmountUI.Initialize(context);

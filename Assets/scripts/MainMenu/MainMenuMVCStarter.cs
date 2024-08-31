@@ -1,7 +1,6 @@
 using nazaaaar.platformBattle.MainMenu.service;
 using nazaaaar.platformBattle.MainMenu.view;
 using nazaaaar.platformBattle.MainMenu.viewAbstract;
-using Unity.Services.Lobbies;
 using UnityEngine;
 
 namespace nazaaaar.platformBattle.MainMenu.mini

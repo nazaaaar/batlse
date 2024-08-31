@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using nazaaaar.platformBattle.MainMenu.controller.commands;
 using RMC.Mini;
 using UnityEngine;
-namespace nazaaaar.platformBattle.MainMenu.viewAbstract{
+namespace nazaaaar.platformBattle.MainMenu.viewAbstract
+{
     public class PageSwitcher : MonoBehaviour, IPageSwitcher
     {
         [SerializeField]

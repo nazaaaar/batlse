@@ -2,7 +2,6 @@ using RMC.Mini;
 using System;
 using UnityEngine;
 using nazaaaar.platformBattle.mini.viewAbstract;
-using Unity.Netcode;
 
 namespace nazaaaar.platformBattle.mini.view
 {
@@ -14,8 +13,6 @@ namespace nazaaaar.platformBattle.mini.view
             {
                 hit.gameObject.SetActive(false);
                 OnCoinCollected?.Invoke(hit.gameObject);
-                //hit.gameObject.GetComponent<NetworkObject>().Despawn();
-                //Destroy(hit.gameObject);
             }
         }
         public bool IsInitialized {get; private set;}
@@ -26,7 +23,6 @@ namespace nazaaaar.platformBattle.mini.view
         {
             if (!IsInitialized){
                 this.Context = context;
-            
             }
         }
 

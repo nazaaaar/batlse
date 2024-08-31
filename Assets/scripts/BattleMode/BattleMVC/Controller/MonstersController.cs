@@ -1,13 +1,12 @@
-using System;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
-using nazaaaar.platformBattle.mini.view;
 using nazaaaar.slime.mini.controller.commands;
 using RMC.Mini;
 using RMC.Mini.Controller;
 using UnityEngine;
 
-namespace nazaaaar.platformBattle.mini.controller{
+namespace nazaaaar.platformBattle.mini.controller
+{
     public class MonstersController : IController
     {
         public bool IsInitialized{get; private set;}
@@ -42,11 +41,11 @@ namespace nazaaaar.platformBattle.mini.controller{
         {
             if (e.monster.Team==Team.Red){
                 monstersList.RedMonsters.Remove(e.monster);
-                Debug.Log("Removed from red list");
+                
             }
             else if (e.monster.Team==Team.Blue){
                 monstersList.BlueMonsters.Remove(e.monster);
-                Debug.Log("Removed from blue list");
+                
             }
             Context.CommandManager.InvokeCommand(new MonsterDeathConfirmedCommand(){monster = e.monster});
 

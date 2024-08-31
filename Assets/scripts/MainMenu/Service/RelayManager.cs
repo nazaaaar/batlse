@@ -1,5 +1,3 @@
-
-using System;
 using System.Threading.Tasks;
 using RMC.Mini;
 using Unity.Netcode;
@@ -12,7 +10,8 @@ using Unity.Services.Relay.Models;
 using UnityEngine;
 using IService = RMC.Mini.Service.IService;
 
-namespace nazaaaar.platformBattle.MainMenu.service{
+namespace nazaaaar.platformBattle.MainMenu.service
+{
     public class RelayManager : MonoBehaviour, IService
     {
         public bool IsInitialized{ get; private set; }

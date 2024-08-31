@@ -15,5 +15,7 @@ namespace nazaaaar.platformBattle.mini.model
        UnityEngine.Vector3 Position {get;}
 
        float AttackRange { get; }
+
+       float FirstAttackDelay {get;}
     }
 }

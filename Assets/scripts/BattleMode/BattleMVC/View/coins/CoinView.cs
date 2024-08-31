@@ -4,7 +4,6 @@ using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

@@ -3,11 +3,9 @@ using UnityEngine;
 using nazaaaar.slime.mini.viewAbstract;
 using nazaaaar.slime.mini.controller.commands;
 using nazaaaar.slime.mini.model;
-using nazaaaar.slime.mini.controller;
 using nazaaaar.platformBattle.mini.model;
 using System;
 using System.Collections;
-using Unity.Netcode;
 
 namespace nazaaaar.slime.mini.view
 {
@@ -21,6 +19,7 @@ namespace nazaaaar.slime.mini.view
         [field: SerializeField]
         public CharacterController CharacterController { get; set; }
 
+        private const float DeathDelay = 0.2f; //ActiveHitting after death
         private MonsterState monsterState = MonsterState.Spawning;
 
         private SlimeModel slimeModel;
@@ -30,8 +29,12 @@ namespace nazaaaar.slime.mini.view
         private float sqrAttackRange;
 
         private Coroutine battleRoutine = null;
+        private float rotationSpeed = 5;
+
+        private Coroutine rotationRoutine = null;
 
         public event Action<IMonster> OnTargetHit;
+        public event Action OnEndLinePassed;
 
         public void Initialize(IContext context)
         {
@@ -61,14 +64,51 @@ namespace nazaaaar.slime.mini.view
         private void OnMonsterTargetChanged(MonsterTargetCommand e)
         {
             target = e.target;
+            Debug.Log(slimeModel.Team.Value +": target is "+e.target);
         }
 
         private void OnMonsterStateChanged(MonsterStateChangedCommand e)
         {
+            CheckPrevMonsterStateValue();
             monsterState = e.monsterState;
-            if (monsterState==MonsterState.Dying){
-                if (battleRoutine!=null)
+            MonsterStateChanged();
+
+        }
+
+        private void MonsterStateChanged()
+        {
+            CheckRotationOnStateChanged();
+            if (monsterState == MonsterState.Dying){
+                StopFightingScheduled(DeathDelay);
+            }
+        }
+
+        private IEnumerator StopFightingScheduled(float delay){
+            yield return new WaitForSeconds(delay);
+            if (battleRoutine != null){
                 StopCoroutine(battleRoutine);
+                battleRoutine = null;
+            }
+        }
+
+        private void CheckRotationOnStateChanged()
+        {
+            if (rotationRoutine != null && monsterState == MonsterState.Battling)
+            {
+                StopCoroutine(rotationRoutine);
+                rotationRoutine = null;
+            }
+            if (monsterState == MonsterState.Dying && rotationRoutine != null)
+            {
+                StopCoroutine(rotationRoutine);
+            }
+        }
+
+        private void CheckPrevMonsterStateValue()
+        {
+            if (monsterState == MonsterState.Battling)
+            {
+                rotationRoutine = StartCoroutine(RotateToBase());
             }
         }
 
@@ -83,14 +123,17 @@ namespace nazaaaar.slime.mini.view
 
         private void HandleBattle()
         {
-            if (target==null) return;
+            if (target == null) return;
             Vector3 difference = target.Position - transform.position;
+
+            difference.y = 0;
+            RotateTowards(difference);
 
             if (battleRoutine == null)
             {
                 if (difference.sqrMagnitude <= sqrAttackRange)
                 {
-                    battleRoutine = StartCoroutine(Fight(slimeModel.AttackSpeed.Value));
+                    battleRoutine = StartCoroutine(StartFight(slimeModel.FirstAttackDelay.Value));
                 }
                 else HandleBattleMovement(difference);
             }
@@ -101,10 +144,23 @@ namespace nazaaaar.slime.mini.view
             }
         }
 
+        private void RotateTowards(Vector3 difference)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(difference);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+        }
+
         private void HandleBattleMovement(Vector3 difference)
         {
-            var dir = difference.normalized;
-            CharacterController?.Move(dir * slimeModel.Speed.Value*Time.fixedDeltaTime);    
+            CharacterController?.Move(transform.forward * slimeModel.Speed.Value*Time.fixedDeltaTime);    
+            if (transform.position.z >= slimeModel.BoundZ.Value){
+                OnEndLinePassed?.Invoke();
+            }
+        }
+        private IEnumerator StartFight(float delay){
+            yield return new WaitForSeconds(delay);
+            battleRoutine = StartCoroutine(Fight(slimeModel.AttackSpeed.Value));
         }
 
         private IEnumerator Fight(float time){
@@ -114,6 +170,11 @@ namespace nazaaaar.slime.mini.view
                     yield break;
                 }
                 OnTargetHit?.Invoke(target);
+
+                if (monsterState==MonsterState.Dying) {
+                    battleRoutine=null;
+                    yield break;
+                }
                 yield return new WaitForSeconds(time);
             }
         }
@@ -121,6 +182,9 @@ namespace nazaaaar.slime.mini.view
         private void HandleMovement()
         {
             CharacterController?.Move(transform.forward * slimeModel.Speed.Value*Time.fixedDeltaTime);    
+            if (transform.position.z >= slimeModel.BoundZ.Value){
+                OnEndLinePassed?.Invoke();
+            }
         }
 
         public GameObject GameObject => gameObject;
@@ -136,6 +200,13 @@ namespace nazaaaar.slime.mini.view
         {
             CharacterController.enabled=false;
             Destroy(this);
+        }
+
+        private IEnumerator RotateToBase(){
+            while (transform.rotation != slimeModel.BaseDirection.Value){
+                transform.rotation = Quaternion.Slerp(transform.rotation, slimeModel.BaseDirection.Value, rotationSpeed * Time.fixedDeltaTime);
+                yield return new WaitForFixedUpdate();
+            }
         }
     }
 }

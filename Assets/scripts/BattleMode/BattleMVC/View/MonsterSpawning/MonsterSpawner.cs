@@ -1,11 +1,9 @@
 using System;
-using System.Linq;
 using nazaaaar.networkUtils;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using nazaaaar.slime.mini;
-using nazaaaar.slime.mini.viewAbstract;
 using RMC.Mini;
 using Unity.Netcode;
 using UnityEngine;

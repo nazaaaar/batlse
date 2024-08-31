@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace nazaaaar.platformBattle.mini.model{
+namespace nazaaaar.platformBattle.mini.model
+{
     public class MonsterSOHashMap
     {
         private Dictionary<string, MonsterSO> _data;

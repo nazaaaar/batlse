@@ -14,5 +14,6 @@ namespace nazaaaar.slime.mini.viewAbstract
         void DestroySelf();
 
         GameObject GameObject{get;}
+        event Action OnEndLinePassed;
     }
 }

@@ -2,7 +2,6 @@ using nazaaaar.platformBattle.mini;
 using nazaaaar.platformBattle.mini.view;
 using nazaaaar.platformBattle.mini.model;
 using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;

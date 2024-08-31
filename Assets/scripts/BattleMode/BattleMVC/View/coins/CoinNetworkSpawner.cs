@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using nazaaaar.networkUtils;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
-using RMC.Mini.View;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace nazaaaar.platformBattle.mini.view{
+namespace nazaaaar.platformBattle.mini.view
+{
     public class CoinNetworkSpawner : NetworkBehaviour, ICoinNetworkSpawner
     {
         public bool IsInitialized{get; private set;}

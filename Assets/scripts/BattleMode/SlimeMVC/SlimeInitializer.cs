@@ -2,10 +2,10 @@ using nazaaaar.platformBattle.mini.model;
 using nazaaaar.slime.mini.view;
 using RMC.Mini;
 using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
 
-namespace nazaaaar.slime.mini{
+namespace nazaaaar.slime.mini
+{
 
     public struct SlimeInitializer
     {
@@ -30,6 +30,7 @@ namespace nazaaaar.slime.mini{
             var slimeView = monsterView.gameObject.AddComponent<slime.mini.view.SlimeView>();
 
             var slimeAnimation = monsterView.gameObject.AddComponent<SlimeAnimation>();
+            var slimeHealthBar = monsterView.gameObject.GetComponentInChildren<SlimeHealthBar>();
 
             slimeAnimation.Animator = slimeView.gameObject.GetComponent<Animator>();
 
@@ -39,7 +40,7 @@ namespace nazaaaar.slime.mini{
 
             var slimeFinder = slimeView.gameObject.GetComponent<SlimeFinder>();
 
-            SlimeMVC slimeMVC = new(context, slimeView, slimeFinder,slimeAnimation, monsterSO, team);
+            SlimeMVC slimeMVC = new(context, slimeView, slimeFinder,slimeAnimation, slimeHealthBar, monsterSO, Rotation, team);
             slimeMVC.Initialize();
 
             return slimeMVC;

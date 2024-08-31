@@ -12,5 +12,6 @@ namespace nazaaaar.platformBattle.mini.model
         public float speed;
         public float attackSpeed;
         public float attackRange;
+        public float firstAttackDelay;
     }
 }

@@ -5,6 +5,7 @@ using nazaaaar.slime.mini.view;
 using nazaaaar.slime.mini.viewAbstract;
 using RMC.Mini;
 using System;
+using UnityEngine;
 namespace nazaaaar.slime.mini
 {
     //  Namespace Properties ------------------------------
@@ -27,18 +28,22 @@ namespace nazaaaar.slime.mini
         private readonly ISlimeView slimeView;
         private readonly SlimeFinder slimeFinder;
         private readonly SlimeAnimation slimeAnimation;
+        private readonly SlimeHealthBar slimeHealthBar;
         private readonly MonsterSO monsterSO;
+        private readonly Quaternion rotation;
         private readonly Team team;
 
         public SlimeController slimeController {get; private set;}
 
-        public SlimeMVC(IContext context, ISlimeView slimeView, SlimeFinder slimeFinder,SlimeAnimation slimeAnimation, MonsterSO monsterSO, Team team)
+        public SlimeMVC(IContext context, ISlimeView slimeView, SlimeFinder slimeFinder,SlimeAnimation slimeAnimation, SlimeHealthBar slimeHealthBar, MonsterSO monsterSO, UnityEngine.Quaternion rotation, Team team)
         {
             this.GlobalContext = context;
             this.slimeView = slimeView;
             this.slimeFinder = slimeFinder;
             this.slimeAnimation = slimeAnimation;
+            this.slimeHealthBar = slimeHealthBar;
             this.monsterSO = monsterSO;
+            this.rotation = rotation;
             this.team = team;
         }
 
@@ -57,14 +62,24 @@ namespace nazaaaar.slime.mini
                 slimeModel.AgroRange.Value = monsterSO.agroRange;
                 slimeModel.AttackSpeed.Value = monsterSO.attackSpeed;
                 slimeModel.Speed.Value = monsterSO.speed;
+                slimeModel.MaxHealth.Value = monsterSO.health;
                 slimeModel.Health.Value = monsterSO.health;
                 slimeModel.Damage.Value = monsterSO.damage;
                 slimeModel.AttackRange.Value = monsterSO.attackRange;
                 slimeModel.Team.Value = team;
+                slimeModel.BaseDirection.Value = rotation;
+                slimeModel.FirstAttackDelay.Value = monsterSO.firstAttackDelay;
+                if (team == Team.Red){
+                    slimeModel.BoundZ.Value = 2.5f;
+                }
+                else if (team == Team.Blue){
+                    slimeModel.BoundZ.Value = 10.5f;
+                }
 
                 slimeAnimation.Initialize(LocalContext);
                 slimeFinder.Initialize(LocalContext);
                 slimeView.Initialize(LocalContext);
+                slimeHealthBar.Initialize(LocalContext);
                 slimeController.Initialize(LocalContext);
             }
         }

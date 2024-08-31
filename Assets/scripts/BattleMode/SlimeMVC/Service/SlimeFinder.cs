@@ -4,7 +4,6 @@ using RMC.Mini.Service;
 using RMC.Mini;
 using System;
 using nazaaaar.platformBattle.mini.model;
-using nazaaaar.slime.mini.controller;
 using System.Collections.Generic;
 
 public class SlimeFinder : MonoBehaviour, IService

@@ -3,11 +3,9 @@ using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
 using nazaaaar.slime.mini.controller.commands;
 using nazaaaar.slime.mini.model;
-using nazaaaar.slime.mini.view;
 using nazaaaar.slime.mini.viewAbstract;
 using RMC.Mini;
 using RMC.Mini.Controller;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace nazaaaar.slime.mini.controller
@@ -59,6 +57,8 @@ namespace nazaaaar.slime.mini.controller
 
         public int Health => this.slimeModel.Health.Value;
 
+        public float FirstAttackDelay => this.slimeModel.FirstAttackDelay.Value;
+
         private readonly MonsterStateChangedCommand monsterStateChangedCommand = new();
 
         private readonly MonstersList monstersList;
@@ -100,9 +100,18 @@ namespace nazaaaar.slime.mini.controller
                 slimeView.OnTargetHit += View_OnTargetHit;
                 slimeModel.AttackRange.Value = slimeModel.AttackRange.Value;
                 slimeAnimation.OnSlimeDiedEndAnimation+= View_OnDeathAnimationEnd;
+                slimeView.OnEndLinePassed += View_OnEndLinePassed;
 
                 globalContext.CommandManager.AddCommandListener<MonsterDeathConfirmedCommand>(Gloabal_OnMonsterDeathConfirmed);
             }
+        }
+
+        private void View_OnEndLinePassed()
+        {
+            slimeView.OnEndLinePassed -= View_OnEndLinePassed;
+            var deathCommand = new MonsterDeadCommand(){monster = this};
+            globalContext.CommandManager.InvokeCommand(deathCommand);   
+            
         }
 
         private void View_OnDeathAnimationEnd()
@@ -130,6 +139,7 @@ namespace nazaaaar.slime.mini.controller
                    HendleDeath();
                 }
             }
+            Context.CommandManager.InvokeCommand(new MonsterHealthChangedCommand(){amount = slimeModel.Health.Value});
         }
 
         private void HendleDeath()
@@ -150,6 +160,7 @@ namespace nazaaaar.slime.mini.controller
 
         private void View_OnTargetHit(IMonster monster)
         {
+            Context.CommandManager.InvokeCommand(new MonsterAttackStartCommand());
             monster.RecieveDamage(Damage);
             UnityEngine.Debug.Log(monster.Team+": "+monster.Health);
         }

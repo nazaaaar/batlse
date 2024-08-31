@@ -4,12 +4,12 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using System.Threading.Tasks;
-using RMC.Mini.Service;
 using IService = RMC.Mini.Service.IService;
 using RMC.Mini;
 using System;
 using System.Collections.Generic;
-namespace nazaaaar.platformBattle.MainMenu.service{
+namespace nazaaaar.platformBattle.MainMenu.service
+{
     public class LobbyManager : MonoBehaviour, IService
     {
         private Lobby currentLobby;
@@ -96,7 +96,10 @@ namespace nazaaaar.platformBattle.MainMenu.service{
             if(!changes.LobbyDeleted){
                 changes.ApplyToLobby(currentLobby);
 
-                if (!currentLobby.Data.Equals(null) && currentLobby.Data.ContainsKey(JOIN_CODE) && currentLobby.Data[JOIN_CODE]!= null){
+                if (currentLobby?.Data != null) 
+                if (currentLobby.Data.ContainsKey(JOIN_CODE)) 
+                if (currentLobby.Data[JOIN_CODE] != null) 
+                if (currentLobby.Data[JOIN_CODE].Value != null){
                     OnLobbyCodeConfigured?.Invoke(currentLobby.Data[JOIN_CODE].Value);
                 }
             }

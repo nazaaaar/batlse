@@ -35,7 +35,16 @@ namespace nazaaaar.platformBattle.mini.view
                 Context = context;
                 
                 context.CommandManager.AddCommandListener<TeamChangedCommand>(OnTeamChanged);
+                context.CommandManager.AddCommandListener<GameFinishedCommand>(OnGameEnd);
             }
+        }
+
+        private void OnGameEnd(GameFinishedCommand e)
+        {
+            Context.CommandManager.RemoveCommandListener<TeamChangedCommand>(OnTeamChanged);
+            Context.CommandManager.RemoveCommandListener<ShopZoneEnteredCommand>(OnShopEntered);
+            Context.CommandManager.RemoveCommandListener<ShopZoneExitedCommand>(OnShopExited);
+            Context.CommandManager.RemoveCommandListener<PlayerMovedCommand>(OnPlayerMoved);
         }
 
         private void OnTeamChanged(TeamChangedCommand e)

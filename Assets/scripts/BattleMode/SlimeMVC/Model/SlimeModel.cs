@@ -17,10 +17,15 @@ namespace nazaaaar.slime.mini.model
         public Observable<Team> Team { get; } = new();
 
         public Observable<int> Health { get; } = new();
+        public Observable<int> MaxHealth { get; } = new();
         public Observable<float> AttackSpeed { get; } = new();
         public Observable<float> AgroRange { get; } = new();
         public Observable<float> AttackRange { get; } = new();
         public Observable<float> Speed { get; } = new();        
+        public Observable<float> FirstAttackDelay { get; } = new();        
+
+        public Observable<float> BoundZ { get; } = new();        
+        public Observable<UnityEngine.Quaternion> BaseDirection { get; } = new();        
 
         public override void Initialize(IContext context)
         {

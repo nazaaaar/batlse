@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using RMC.Core.Observables;
 using RMC.Mini;
 using RMC.Mini.Model;
 namespace nazaaaar.platformBattle.mini.model

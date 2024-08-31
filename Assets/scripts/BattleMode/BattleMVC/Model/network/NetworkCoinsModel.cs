@@ -1,11 +1,11 @@
 using System;
-using System.Diagnostics;
 using nazaaaar.platformBattle.mini.controller.commands;
 using RMC.Mini;
 using RMC.Mini.Model;
 using Unity.Netcode;
 
-namespace nazaaaar.platformBattle.mini.model{
+namespace nazaaaar.platformBattle.mini.model
+{
     public class NetworkCoinsModel : NetworkBehaviour, IModel
     {
         public bool IsInitialized{get; private set;}

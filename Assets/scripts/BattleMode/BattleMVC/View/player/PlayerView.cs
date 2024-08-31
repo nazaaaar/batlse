@@ -52,12 +52,16 @@ namespace nazaaaar.platformBattle.mini.view
         private void OnTeamChanged(TeamChangedCommand e)
         {
             if (e.Team==model.Team.Blue) {
+                characterController.enabled = false;
                 PlayerTransform.position = bluePosition;
+                characterController.enabled = true;
                 
                 }
             if (e.Team==model.Team.Red){
+                characterController.enabled = false;
                 PlayerTransform.position = redPosition;
                 PlayerTransform.Rotate(0,180,0,Space.World);
+                characterController.enabled = true;
                 
                 }
 

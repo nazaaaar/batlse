@@ -126,6 +126,7 @@ namespace nazaaaar.networkUtils
 
             void ActionOnDestroy(NetworkObject networkObject)
             {
+                if (networkObject != null)
                 Destroy(networkObject.gameObject);
             }
 

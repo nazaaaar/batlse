@@ -30,7 +30,14 @@ namespace nazaaaar.platformBattle.mini.view
 
                 context.CommandManager.AddCommandListener<PlayerMovedCommand>(OnPlayerMoved);
                 context.CommandManager.AddCommandListener<TeamChangedCommand>(OnTeamChanged);
+                context.CommandManager.AddCommandListener<GameFinishedCommand>(OnGameEnd);
             }
+        }
+
+        private void OnGameEnd(GameFinishedCommand e)
+        {
+            Context.CommandManager.RemoveCommandListener<PlayerMovedCommand>(OnPlayerMoved);
+            Context.CommandManager.RemoveCommandListener<TeamChangedCommand>(OnTeamChanged);
         }
 
         private void OnTeamChanged(TeamChangedCommand e)

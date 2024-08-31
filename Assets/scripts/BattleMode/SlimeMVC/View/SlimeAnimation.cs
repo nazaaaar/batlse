@@ -3,10 +3,7 @@ using UnityEngine;
 using nazaaaar.slime.mini.viewAbstract;
 using nazaaaar.slime.mini.controller.commands;
 using nazaaaar.slime.mini.model;
-using nazaaaar.slime.mini.controller;
-using nazaaaar.platformBattle.mini.model;
 using System;
-using System.Collections;
 
 namespace nazaaaar.slime.mini.view
 {
@@ -28,15 +25,36 @@ namespace nazaaaar.slime.mini.view
                 IsInitialized = true;
                 Context = context;
 
-                context.CommandManager.AddCommandListener<MonsterStateChangedCommand>(OnMonsterStateChanged);
+                Context.CommandManager.AddCommandListener<MonsterStateChangedCommand>(OnMonsterStateChanged);
+                Context.CommandManager.AddCommandListener<MonsterAttackStartCommand>(OnMonsterAttackStart);
             }
         }
 
+        private void OnMonsterAttackStart(MonsterAttackStartCommand e)
+        {
+            Animator.SetTrigger("Idle");
+            Animator.SetTrigger("Attack");
+        }
+        public void OnDiedAnimation(){
+            OnSlimeDiedEndAnimation?.Invoke();
+        }
         private void OnMonsterStateChanged(MonsterStateChangedCommand e)
         {
-            if (e.monsterState == MonsterState.Dying){
-                OnSlimeDiedEndAnimation?.Invoke();
+            switch (e.monsterState)
+            {
+                case MonsterState.Dying:
+                    Animator.SetTrigger("Die");
+                    
+                    break;
+                case MonsterState.Spawning:
+                    Animator.SetTrigger("Idle");
+                    break;
+                case MonsterState.Moving:
+                case MonsterState.Battling:
+                    Animator.SetTrigger("Run");
+                    break;
             }
+
         }
 
         public void RequireIsInitialized()
@@ -51,6 +69,7 @@ namespace nazaaaar.slime.mini.view
 
         void OnDestroy(){
             Context.CommandManager.RemoveCommandListener<MonsterStateChangedCommand>(OnMonsterStateChanged);
+            Context.CommandManager.RemoveCommandListener<MonsterAttackStartCommand>(OnMonsterAttackStart);
         }
     }
 }

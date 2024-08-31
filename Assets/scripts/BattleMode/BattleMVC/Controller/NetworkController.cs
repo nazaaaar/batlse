@@ -1,15 +1,15 @@
 using System;
-using nazaaaar.platformBattle.MainMenu.controller;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
-using nazaaaar.platformBattle.mini.view;
 using nazaaaar.platformBattle.mini.viewAbstract;
 using RMC.Mini;
 using RMC.Mini.Controller;
 using Unity.Netcode;
 using UnityEngine;
+using static nazaaaar.platformBattle.mini.controller.commands.GameFinishedCommand;
 
-namespace nazaaaar.platformBattle.mini.controller{
+namespace nazaaaar.platformBattle.mini.controller
+{
     public class NetworkController : IController
     {
         public bool IsInitialized{get; private set;}
@@ -56,7 +56,28 @@ namespace nazaaaar.platformBattle.mini.controller{
                 monsterNetworkSpawner.OnMonsterSpawned+=View_OnMonsterSpawned;
 
                 Context.CommandManager.AddCommandListener<MoneyAddRequestCommand>(OnMoneyAddRequest);
+                Context.CommandManager.AddCommandListener<GameTimePassed>(OnGameTimePassed);
+                Context.CommandManager.AddCommandListener<MainMenuClickedCommand>(OnMainMenuClicked);
             }
+        }
+
+        private void OnMainMenuClicked(MainMenuClickedCommand e)
+        {
+            NetworkManager.Singleton.Shutdown();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameStart");
+        }
+
+        private void OnGameTimePassed(GameTimePassed e)
+        {
+            GameEndState gameEndState;
+            if (networkCoinsModel.MyCoins().Value > networkCoinsModel.OtherCoins().Value){
+                gameEndState = GameEndState.Win;
+            }
+            else if (networkCoinsModel.MyCoins().Value < networkCoinsModel.OtherCoins().Value)
+                gameEndState = GameEndState.Lose;
+            else gameEndState = GameEndState.Draw;
+
+            Context.CommandManager.InvokeCommand(new GameFinishedCommand(){gameEndState = gameEndState});
         }
 
         private void View_OnMonsterSpawned(IMonster monster)

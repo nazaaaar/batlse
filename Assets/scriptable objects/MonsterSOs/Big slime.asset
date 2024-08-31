@@ -20,3 +20,4 @@ MonoBehaviour:
   speed: 0.5
   attackSpeed: 1
   attackRange: 1.5
+  firstAttackDelay: 0.5

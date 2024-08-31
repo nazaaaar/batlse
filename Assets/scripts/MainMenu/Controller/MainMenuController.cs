@@ -8,9 +8,9 @@ using nazaaaar.platformBattle.MainMenu.service;
 using Debug = UnityEngine.Debug;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using UnityEngine;
 
-namespace nazaaaar.platformBattle.MainMenu.controller{
+namespace nazaaaar.platformBattle.MainMenu.controller
+{
     public class MainMenuController : IController
     {
         public bool IsInitialized {get; private set; }
@@ -86,6 +86,7 @@ namespace nazaaaar.platformBattle.MainMenu.controller{
 
         private void OnClientConnectedCallback(ulong obj)
         {
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallback;
             Debug.Log("client connected callback");
             NetworkManager.Singleton.SceneManager.LoadScene("PlayMode",LoadSceneMode.Single);
         }

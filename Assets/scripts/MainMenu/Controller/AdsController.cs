@@ -8,7 +8,7 @@ using nazaaaar.platformBattle.MainMenu.service;
 using Debug = UnityEngine.Debug;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using UnityEditor.ShortcutManagement;
+
 
 namespace nazaaaar.platformBattle.MainMenu.controller
 {

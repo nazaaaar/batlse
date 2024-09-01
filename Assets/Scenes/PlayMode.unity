@@ -36811,6 +36811,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3232588325863442519, guid: b4a30a1ae9ca97141b48f9b4c7a1ccf6, type: 3}
+      propertyPath: m_Name
+      value: Mute
+      objectReference: {fileID: 0}
+    - target: {fileID: 5033908390075222642, guid: b4a30a1ae9ca97141b48f9b4c7a1ccf6, type: 3}
+      propertyPath: m_text
+      value: Mute
+      objectReference: {fileID: 0}
     - target: {fileID: 5805302225609520740, guid: b4a30a1ae9ca97141b48f9b4c7a1ccf6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

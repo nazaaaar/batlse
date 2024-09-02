@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 900dad505285ad14bb7857fc4158af31, type: 3}
-  m_Name: Spiky slime
+  m_Name: Turtle big
   m_EditorClassIdentifier: 
-  title: Smiky slime
+  title: Big turtle
   image: {fileID: 21300000, guid: f35f40dc24bc8c24e8f01916c7d28c6a, type: 3}
-  description: 3
-  cost: 5
+  description: Slow but strong
+  cost: 7
   monsterSO: {fileID: 11400000, guid: 4cdde11b56c95f645b1c15480fa7cb55, type: 2}

@@ -1,13 +1,7 @@
 using RMC.Mini;
 using RMC.Mini.Controller;
-using nazaaaar.platformBattle.MainMenu.model;
-using nazaaaar.platformBattle.MainMenu.viewAbstract;
-using System;
 using nazaaaar.platformBattle.MainMenu.controller.commands;
-using nazaaaar.platformBattle.MainMenu.service;
 using Debug = UnityEngine.Debug;
-using UnityEngine.SceneManagement;
-using Unity.Netcode;
 
 
 namespace nazaaaar.platformBattle.MainMenu.controller

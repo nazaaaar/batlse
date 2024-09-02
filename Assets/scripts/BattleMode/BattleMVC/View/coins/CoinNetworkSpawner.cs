@@ -53,7 +53,8 @@ namespace nazaaaar.platformBattle.mini.view
         [Rpc(SendTo.Server)]
         private void CoinDeleteRpc(ulong networkObjectId){
             if (NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject)){
-                
+                var coinFall = networkObject.gameObject.GetComponent<CoinFall>();
+                coinFall.Reset();
                 NetworkObjectPool.Singleton.ReturnNetworkObject(networkObject, coinPrefab);
                 networkObject.Despawn(destroy: false);
                 

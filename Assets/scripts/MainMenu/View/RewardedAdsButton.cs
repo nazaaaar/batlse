@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Advertisements;
 using RMC.Mini;
 using nazaaaar.platformBattle.MainMenu.controller.commands;
 using System;

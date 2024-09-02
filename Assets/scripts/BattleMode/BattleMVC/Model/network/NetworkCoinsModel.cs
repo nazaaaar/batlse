@@ -24,8 +24,8 @@ namespace nazaaaar.platformBattle.mini.model
                 Context = context;
 
                 if (IsServer){
-                    BlueCoins.Value = 0;
-                    RedCoins.Value = 0;
+                    BlueCoins.Value = 4;
+                    RedCoins.Value = 4;
                 }
 
                 Context.CommandManager.AddCommandListener<TeamChangedCommand>(OnTeamChanged);

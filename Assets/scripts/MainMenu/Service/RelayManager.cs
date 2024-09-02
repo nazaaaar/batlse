@@ -34,10 +34,10 @@ namespace nazaaaar.platformBattle.MainMenu.service
             }
         }
 
-        public void ConfigClientWithRelay(string joinCode){
+        public async void ConfigClientWithRelay(string joinCode){
             RequireIsInitialized();
 
-            ConfigClientWithRelayAsync(joinCode);
+            await ConfigClientWithRelayAsync(joinCode);
         }
         public async Task<string> ConfigHostWithRelayAsync(int maxConnections=1)
         {

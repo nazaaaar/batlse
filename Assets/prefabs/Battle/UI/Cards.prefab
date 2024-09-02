@@ -82,6 +82,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed3d9007c4b8bc7409861e845bf32121, type: 2}
   - {fileID: 11400000, guid: 81ceb45497d069246adc37857e2e284b, type: 2}
   - {fileID: 11400000, guid: f764859e8bc928e48af29b5d88e7271b, type: 2}
+  - {fileID: 11400000, guid: 7af83bb96b5d7374b98dce513441db41, type: 2}
+  - {fileID: 11400000, guid: 9679b89d4ce945c49908bc79e8cc5be5, type: 2}
+  - {fileID: 11400000, guid: 5c4c026bb03067f49b740fa09d911bad, type: 2}
   shopCards:
   - {fileID: 723508784204985667}
   - {fileID: 7719559487012533427}

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 900dad505285ad14bb7857fc4158af31, type: 3}
+  m_Name: Turtle small
+  m_EditorClassIdentifier: 
+  title: Small turtle
+  image: {fileID: 21300000, guid: f35f40dc24bc8c24e8f01916c7d28c6a, type: 3}
+  description: Fast
+  cost: 4
+  monsterSO: {fileID: 11400000, guid: f11eb2067c4871e48b81dc2082f498f1, type: 2}

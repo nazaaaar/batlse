@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fff01ddb8d6cdc49b462ffecc247b2b, type: 3}
+  m_Name: Slime regular
+  m_EditorClassIdentifier: 
+  Id: d55f18b1-23b1-4b3c-a0df-71c23e112e10
+  prefab: {fileID: 1963937122804461078, guid: 5e40b32431e1a9e4884d2a2292239527, type: 3}
+  health: 120
+  damage: 25
+  agroRange: 2.4
+  speed: 0.6
+  attackSpeed: 1
+  attackRange: 1.5
+  firstAttackDelay: 0.4

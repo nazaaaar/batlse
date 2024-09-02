@@ -2,8 +2,6 @@ using RMC.Mini;
 using System;
 using UnityEngine;
 using nazaaaar.platformBattle.mini.viewAbstract;
-using TMPro;
-using nazaaaar.platformBattle.mini.controller.commands;
 
 namespace nazaaaar.platformBattle.mini.view
 {

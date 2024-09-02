@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 900dad505285ad14bb7857fc4158af31, type: 3}
-  m_Name: Big slime
+  m_Name: Slime big
   m_EditorClassIdentifier: 
   title: Big smile
   image: {fileID: 21300000, guid: 36752755d22024a49bafabd556e07c66, type: 3}
-  description: super
-  cost: 4
+  description: Has a lot HP but few damage
+  cost: 5
   monsterSO: {fileID: 11400000, guid: 536420ef0d59d014fa09f0bee1fdea21, type: 2}

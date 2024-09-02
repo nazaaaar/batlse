@@ -9,12 +9,13 @@ namespace nazaaaar.platformBattle.mini.view
     {
         public event Action<GameObject> OnCoinCollected;
         void OnControllerColliderHit(ControllerColliderHit hit){
-            if (hit.gameObject.tag == "Coin")
+            if (hit.gameObject.tag == "Coin" && hit.gameObject.activeSelf)
             {
                 hit.gameObject.SetActive(false);
                 OnCoinCollected?.Invoke(hit.gameObject);
             }
         }
+
         public bool IsInitialized {get; private set;}
 
         public IContext Context {get; private set;}

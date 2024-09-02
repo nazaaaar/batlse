@@ -1,5 +1,3 @@
-
-using System;
 using nazaaaar.platformBattle.mini.model;
 using RMC.Mini.Controller.Commands;
 

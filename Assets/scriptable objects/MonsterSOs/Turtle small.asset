@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fff01ddb8d6cdc49b462ffecc247b2b, type: 3}
+  m_Name: Turtle small
+  m_EditorClassIdentifier: 
+  Id: 9e5ec112-29bf-47ff-b9e8-31ef9423b840
+  prefab: {fileID: 7395113969831373980, guid: d8ec2b8b683bb3445b08389da3e24c2c, type: 3}
+  health: 80
+  damage: 30
+  agroRange: 1.6
+  speed: 0.8
+  attackSpeed: 1.3
+  attackRange: 1
+  firstAttackDelay: 0.2

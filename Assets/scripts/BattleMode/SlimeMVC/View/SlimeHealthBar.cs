@@ -2,7 +2,6 @@ using RMC.Mini;
 using UnityEngine;
 using nazaaaar.slime.mini.viewAbstract;
 using nazaaaar.slime.mini.controller.commands;
-using System;
 using nazaaaar.slime.mini.model;
 using Unity.Netcode;
 

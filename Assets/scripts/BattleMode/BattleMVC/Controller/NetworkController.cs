@@ -1,4 +1,3 @@
-using System;
 using nazaaaar.platformBattle.mini.controller.commands;
 using nazaaaar.platformBattle.mini.model;
 using nazaaaar.platformBattle.mini.viewAbstract;

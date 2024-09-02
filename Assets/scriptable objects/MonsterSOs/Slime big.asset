@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fff01ddb8d6cdc49b462ffecc247b2b, type: 3}
-  m_Name: SlimeSoikey
+  m_Name: Slime big
   m_EditorClassIdentifier: 
-  Id: df51518e-78ee-4aa2-b62f-4e7734566d84
-  prefab: {fileID: 7415476017966358040, guid: 695b936f98998c1418ae31c318ad9ce5, type: 3}
-  health: 150
-  damage: 48
-  agroRange: 4
-  speed: 0.35
-  attackSpeed: 1
+  Id: d5cf160b-1015-443e-9d47-dd40dfa58d26
+  prefab: {fileID: 4019039831100909620, guid: 432c6e06d31412840adcd13e02146156, type: 3}
+  health: 220
+  damage: 35
+  agroRange: 2.4
+  speed: 0.3
+  attackSpeed: 1.4
   attackRange: 1.5
-  firstAttackDelay: 0.4
+  firstAttackDelay: 0.6

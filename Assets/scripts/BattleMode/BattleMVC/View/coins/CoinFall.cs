@@ -43,15 +43,16 @@ public class CoinFall: NetworkBehaviour, ICoinFall{
         }
     }
 
-        public override void OnNetworkSpawn()
+        public override void OnNetworkDespawn()
         {
-            Reset();           
-            base.OnNetworkSpawn();
+            Reset();
+            Debug.Log("Network despawn "+ transform.position); 
+            base.OnNetworkDespawn();
         }
 
         public void Reset(){
-        
-        isFalled = false;
+            transform.position= new Vector3(transform.position.x, yLevel, transform.position.z);
+            isFalled = false;
     }
 }
 }

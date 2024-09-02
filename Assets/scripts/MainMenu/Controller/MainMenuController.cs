@@ -52,9 +52,17 @@ namespace nazaaaar.platformBattle.MainMenu.controller
                 LobbyManager.OnLobbyCreated += Service_OnLobbyCreated;
                 LobbyManager.OnLobbyFull += Service_OnLobbyFull;
                 LobbyManager.OnLobbyCodeConfigured += Service_OnLobbyCodeConfigured;
-                
+                LobbyManager.OnLobbyDeleted+=Service_OnLobbyDeleted;
             }
 
+        }
+
+        private void Service_OnLobbyDeleted()
+        {
+            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsHost){
+                NetworkManager.Singleton.Shutdown();
+            }
+            View_OnStartPressed();
         }
 
         private async void Service_OnLobbyCreated()

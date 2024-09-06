@@ -64,7 +64,7 @@ namespace nazaaaar.slime.mini.view
         }
 
         private IEnumerator ScheduleVictotyEnd(float delay){
-            yield return new WaitForSeconds(delay);
+            yield return WaitForEndPool.WaitForSeconds(delay);
             OnSlimeVictoryEndAnimation?.Invoke();
         }
 

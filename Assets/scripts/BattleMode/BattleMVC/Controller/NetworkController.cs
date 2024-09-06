@@ -40,6 +40,7 @@ namespace nazaaaar.platformBattle.mini.controller
 
         public void Dispose()
         {
+
         }
 
         public void Initialize(IContext context)
@@ -49,7 +50,7 @@ namespace nazaaaar.platformBattle.mini.controller
                 Context = context;
 
                 coinView.OnCoinSpawnRequest += View_OnCoinSpawnRequest;
-                coinCollector.OnCoinCollected+=View_OnCoinCollected;
+                coinCollector.OnCoinCollected += View_OnCoinCollected;
                 networkCoinsModel.MyCoins().OnValueChanged += PlayerMoneyValueChanged;
                 networkCoinsModel.OtherCoins().OnValueChanged += OtherMoneyValueChanged;
                 monsterNetworkSpawner.OnMonsterSpawned+=View_OnMonsterSpawned;

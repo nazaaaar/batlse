@@ -9,9 +9,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
     [SerializeField] string _androidAdUnitId = "Rewarded_Android";
     [SerializeField] string _iOSAdUnitId = "Rewarded_iOS";
     string _adUnitId = null;
-
     public bool IsInitialized{get; private set;}
-
     public IContext Context{get; private set;}
 
     public event Action OnAdLoaded;

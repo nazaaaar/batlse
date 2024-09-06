@@ -62,7 +62,7 @@ namespace nazaaaar.platformBattle.MainMenu.view
         private IEnumerator ChangePositionCoroutine(Vector3 desiredPosition, float smoothSpeed){
             while (transform.position !=desiredPosition){
                 transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothSpeed);
-                yield return new WaitForEndOfFrame();
+                yield return WaitForEndPool.WaitForEndOfFrame();
             }
             Debug.Log("Routine stopped");
         }

@@ -77,7 +77,7 @@ namespace nazaaaar.platformBattle.MainMenu.service
         {
             try
             {
-                var joinResponse = await Lobbies.Instance.QuickJoinLobbyAsync();
+                var joinResponse = await Task.Run(()=>Lobbies.Instance.QuickJoinLobbyAsync());
                 currentLobby = joinResponse;
                 if (joinResponse.Players.Count == 1){
                     await DeleteLobby();
@@ -91,7 +91,7 @@ namespace nazaaaar.platformBattle.MainMenu.service
                 
 
                 try {
-                    lobbyEvents = await Lobbies.Instance.SubscribeToLobbyEventsAsync(currentLobby.Id, callbacks);
+                    lobbyEvents = await Task.Run(()=>Lobbies.Instance.SubscribeToLobbyEventsAsync(currentLobby.Id, callbacks));
                 }
                 catch (LobbyServiceException ex)
                 {
@@ -139,7 +139,7 @@ namespace nazaaaar.platformBattle.MainMenu.service
         {
             try
             {
-                await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
+                await Task.Run(() => LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id));
                 currentLobby=null;
                 OnLobbyDeleted?.Invoke();
             }
@@ -158,7 +158,7 @@ namespace nazaaaar.platformBattle.MainMenu.service
                     IsPrivate = false
                 };
     
-                var createResponse = await Lobbies.Instance.CreateLobbyAsync("LobbyName", MaxPlayers, lobbyOptions);
+                var createResponse = await Task.Run(()=>Lobbies.Instance.CreateLobbyAsync("LobbyName", MaxPlayers, lobbyOptions));
                 currentLobby = createResponse;
                 Debug.Log("Created Lobby: " + currentLobby.Id);
                 
@@ -169,7 +169,7 @@ namespace nazaaaar.platformBattle.MainMenu.service
                 callbacks.LobbyEventConnectionStateChanged+= OnLobbyEventConnectionStateChanged;
 
                 try {
-                    lobbyEvents = await Lobbies.Instance.SubscribeToLobbyEventsAsync(currentLobby.Id, callbacks);
+                    lobbyEvents = await Task.Run(()=>Lobbies.Instance.SubscribeToLobbyEventsAsync(currentLobby.Id, callbacks));
                     MarkAsConnected();
                 }
                 catch (LobbyServiceException ex)
@@ -187,7 +187,6 @@ namespace nazaaaar.platformBattle.MainMenu.service
             }
             catch (LobbyServiceException e)
             {
-                
                 throw e;
             }
         }
@@ -216,7 +215,7 @@ namespace nazaaaar.platformBattle.MainMenu.service
             
             if (currentLobby != null)
             {
-                await Lobbies.Instance.SendHeartbeatPingAsync(currentLobby.Id);
+                await Task.Run(() => Lobbies.Instance.SendHeartbeatPingAsync(currentLobby.Id));
             }
         }
 
@@ -265,12 +264,12 @@ namespace nazaaaar.platformBattle.MainMenu.service
         {
             try{
                 Debug.Log("AsyncSet");
-                currentLobby = await Lobbies.Instance.UpdateLobbyAsync(currentLobby.Id, new UpdateLobbyOptions{
+                currentLobby = await Task.Run(()=>Lobbies.Instance.UpdateLobbyAsync(currentLobby.Id, new UpdateLobbyOptions{
                 Data = new Dictionary<string, DataObject>{
                     {JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member, joinCode)}
                 }
                 
-            });
+            }));
                 Debug.Log(JOIN_CODE + " " + joinCode );
             }
             catch (LobbyServiceException ex){
@@ -296,7 +295,7 @@ namespace nazaaaar.platformBattle.MainMenu.service
 
             string playerId = AuthenticationService.Instance.PlayerId;
 
-            var lobby = await LobbyService.Instance.UpdatePlayerAsync(currentLobby.Id, playerId, options);
+            await Task.Run(() => LobbyService.Instance.UpdatePlayerAsync(currentLobby.Id, playerId, options));
         }
         catch (LobbyServiceException e)
         {

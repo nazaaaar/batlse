@@ -84,7 +84,7 @@ namespace nazaaaar.slime.mini.view
         }
 
         private IEnumerator StopFightingScheduled(float delay){
-            yield return new WaitForSeconds(delay);
+            yield return WaitForEndPool.WaitForSeconds(delay);
             if (battleRoutine != null){
                 StopCoroutine(battleRoutine);
                 battleRoutine = null;
@@ -157,7 +157,7 @@ namespace nazaaaar.slime.mini.view
             CheckForEndLine();
         }
         private IEnumerator StartFight(float delay){
-            yield return new WaitForSeconds(delay);
+            yield return WaitForEndPool.WaitForSeconds(delay);
             battleRoutine = StartCoroutine(Fight(slimeModel.AttackSpeed.Value));
         }
 
@@ -173,7 +173,7 @@ namespace nazaaaar.slime.mini.view
                     battleRoutine=null;
                     yield break;
                 }
-                yield return new WaitForSeconds(time);
+                yield return WaitForEndPool.WaitForSeconds(time);
             }
         }
 
@@ -212,7 +212,7 @@ namespace nazaaaar.slime.mini.view
         private IEnumerator RotateToBase(){
             while (transform.rotation != slimeModel.BaseDirection.Value){
                 transform.rotation = Quaternion.Slerp(transform.rotation, slimeModel.BaseDirection.Value, rotationSpeed * Time.fixedDeltaTime);
-                yield return new WaitForFixedUpdate();
+                yield return WaitForEndPool.WaitForFixedUpdate();
             }
         }
     }

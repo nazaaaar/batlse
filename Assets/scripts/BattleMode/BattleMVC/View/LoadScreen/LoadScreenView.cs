@@ -62,7 +62,7 @@ namespace nazaaaar.platformBattle.mini.view
     }
 
     private IEnumerator DeleteAfterTimeOut(float timeout){
-        yield return new WaitForSeconds(timeout);
+        yield return WaitForEndPool.WaitForSeconds(timeout);
         Destroy(gameObject);
     }
     private IEnumerator FakeLoadingProcess()
@@ -75,7 +75,7 @@ namespace nazaaaar.platformBattle.mini.view
             SetSliderProgress(progress);
 
             elapsedTime += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            yield return WaitForEndPool.WaitForEndOfFrame();
         }
 
         SetSliderProgress(0.9f);

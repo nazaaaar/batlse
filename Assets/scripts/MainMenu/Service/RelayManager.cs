@@ -41,7 +41,7 @@ namespace nazaaaar.platformBattle.MainMenu.service
         }
         public async Task<string> ConfigHostWithRelayAsync(int maxConnections=1)
         {
-            try{await UnityServices.InitializeAsync();
+            try{
             if (!AuthenticationService.Instance.IsSignedIn)
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
@@ -61,10 +61,10 @@ namespace nazaaaar.platformBattle.MainMenu.service
             await UnityServices.InitializeAsync();
             if (!AuthenticationService.Instance.IsSignedIn)
             {
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                await Task.Run(()=> AuthenticationService.Instance.SignInAnonymouslyAsync());
             }
 
-            var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: joinCode);
+            var joinAllocation = await Task.Run(() => RelayService.Instance.JoinAllocationAsync(joinCode: joinCode));
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
         }
     }

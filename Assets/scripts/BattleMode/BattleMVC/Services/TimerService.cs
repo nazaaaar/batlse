@@ -33,7 +33,7 @@ namespace nazaaaar.platformBattle.mini.service{
         {
             while (true)
             {
-                yield return new WaitForSeconds(1f);
+                yield return WaitForEndPool.WaitForSeconds(1f);
                 onSecondPassed?.Invoke();
             }
         }

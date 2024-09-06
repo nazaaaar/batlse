@@ -58,7 +58,7 @@ namespace nazaaaar.platformBattle.mini.view
 
         private IEnumerator FallingCycle(){
             while (canCoinFall){
-                yield return new WaitForSeconds(coinPeriodTime);
+                yield return WaitForEndPool.WaitForSeconds(coinPeriodTime);
                 var coin = spawnOnTilemap.GetVector3(coinTilemap);    
              
                 OnCoinSpawnRequest?.Invoke(coin);
